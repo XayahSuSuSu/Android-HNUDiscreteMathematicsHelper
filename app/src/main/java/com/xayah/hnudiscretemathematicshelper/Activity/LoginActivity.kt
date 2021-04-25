@@ -96,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
                                             .setCancelable(true)
                                             .create()
                                         mBuilder.getWindow()
-                                            ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
+                                            ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge)
                                         mBuilder.show()
                                         mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
                                             .setTextColor(Color.parseColor("#f88e20"))

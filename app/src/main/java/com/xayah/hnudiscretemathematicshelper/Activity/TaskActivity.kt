@@ -48,8 +48,7 @@ class TaskActivity : AppCompatActivity() {
                 cookie!!,
             )
             for (i in certainTaskList){
-                Log.d("mTAG", "certainTaskList: " + i.certainTaskQuestionClass.qOption)
-
+                Log.d("mTAG", "遍历答案数组: " + i.certainTaskQuestionClass.qOption)
             }
             runOnUiThread {
                 val mCertainTaskAdapter = CertainTaskAdapter(this, certainTaskList)

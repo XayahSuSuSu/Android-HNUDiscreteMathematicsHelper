@@ -19,10 +19,10 @@ import com.xayah.hnudiscretemathematicshelper.R
 
 
 class CertainTaskAdapter(
-    mContext: Context,
-    mCertainTaskList: MutableList<CertainTaskClass>,
+        mContext: Context,
+        mCertainTaskList: MutableList<CertainTaskClass>,
 ) :
-    RecyclerView.Adapter<CertainTaskAdapter.ViewHolderTask>() {
+        RecyclerView.Adapter<CertainTaskAdapter.ViewHolderTask>() {
     var mContext: Context
     var mCertainTaskList: MutableList<CertainTaskClass>
 
@@ -33,11 +33,11 @@ class CertainTaskAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderTask {
         val itemView: View =
-            LayoutInflater.from(mContext).inflate(
-                R.layout.recyclerview_certaintasks_item,
-                parent,
-                false
-            )
+                LayoutInflater.from(mContext).inflate(
+                        R.layout.recyclerview_certaintasks_item,
+                        parent,
+                        false
+                )
         return ViewHolderTask(itemView)
     }
 
@@ -59,46 +59,28 @@ class CertainTaskAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolderTask, position: Int) {
+        holder.setIsRecyclable(false) // 复用问题导致CheckBox数据错乱,搞了我好久...
         val certainTaskClass: CertainTaskClass = mCertainTaskList.get(position)
-        if (holder.textView_subject.text == "qTitle"){
+        if (holder.linearLayout_options.childCount == 1) {
             for (i in certainTaskClass.certainTaskQuestionClass.qOption) {
                 if (i.isNotEmpty()) {
                     val checkBox = CheckBox(mContext)
                     checkBox.setText(i)
                     val mParam = LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
                     )
                     mParam.setMargins(
-                        mContext.getResources().getDimension(R.dimen.mStart).toInt(),
-                        mContext.getResources().getDimension(R.dimen.mTop).toInt(),
-                        mContext.getResources().getDimension(R.dimen.mEnd).toInt(),
-                        0
+                            mContext.getResources().getDimension(R.dimen.mStart).toInt(),
+                            mContext.getResources().getDimension(R.dimen.mTop).toInt(),
+                            mContext.getResources().getDimension(R.dimen.mEnd).toInt(),
+                            0
                     )
                     checkBox.layoutParams = mParam
                     holder.linearLayout_options.addView(checkBox)
+
                 }
             }
         }
         holder.textView_subject.text = certainTaskClass.certainTaskQuestionClass.qTitle
-//        holder.textView_subject.setEllipsize(TextUtils.TruncateAt.MARQUEE)
-//        holder.textView_subject.setSingleLine(true)
-//        holder.textView_subject.setSelected(true)
-//        holder.textView_subject.setFocusable(true)
-//        holder.textView_subject.setFocusableInTouchMode(true)
     }
-
-    fun setItem(l_isEdited: Boolean, l_position: Int) {
-        val mCertainTaskClass: CertainTaskClass = mCertainTaskList.get(l_position)
-//        mCertainTaskClass.isEdited = l_isEdited
-        mCertainTaskList.set(l_position, mCertainTaskClass) //在集合中修改这条数据
-        notifyItemChanged(l_position)
-    }
-
-
-    fun addItem(l_CertainTaskClass: CertainTaskClass) {
-//        mCertainTaskList.add(0, l_CertainTaskClass) //在集合中修改这条数据
-        notifyItemInserted(0)
-        notifyDataSetChanged()
-    }
-
 }
