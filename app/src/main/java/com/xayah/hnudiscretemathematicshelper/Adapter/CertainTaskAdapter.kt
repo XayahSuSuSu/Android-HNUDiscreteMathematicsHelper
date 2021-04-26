@@ -16,6 +16,7 @@ import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
 import com.xayah.hnudiscretemathematicshelper.R
+import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 
 
 class CertainTaskAdapter(
@@ -62,10 +63,12 @@ class CertainTaskAdapter(
         holder.setIsRecyclable(false) // 复用问题导致CheckBox数据错乱,搞了我好久...
         val certainTaskClass: CertainTaskClass = mCertainTaskList.get(position)
         if (holder.linearLayout_options.childCount == 1) {
-            for (i in certainTaskClass.certainTaskQuestionClass.qOption) {
+            for ((index, i) in certainTaskClass.certainTaskQuestionClass.qOption.withIndex()) {
                 if (i.isNotEmpty()) {
                     val checkBox = CheckBox(mContext)
-                    checkBox.setText(i)
+                    checkBox.text = i
+                    if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
+                        checkBox.isChecked = true
                     val mParam = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
                     )
@@ -77,7 +80,6 @@ class CertainTaskAdapter(
                     )
                     checkBox.layoutParams = mParam
                     holder.linearLayout_options.addView(checkBox)
-
                 }
             }
         }

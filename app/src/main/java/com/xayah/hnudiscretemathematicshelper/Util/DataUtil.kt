@@ -155,5 +155,13 @@ class DataUtil {
             }
             return mReturn
         }
+
+        fun int2Char(mInt: Int): Char {
+            return (mInt + 65).toChar()
+        }
+
+        fun char2Int(mChar: Char): Int {
+            return mChar.toInt() - 65
+        }
     }
 }
