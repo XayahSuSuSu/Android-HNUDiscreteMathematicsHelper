@@ -2,6 +2,7 @@ package com.xayah.hnudiscretemathematicshelper.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +17,10 @@ import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 
 
 class CertainTaskAdapter(
-        mContext: Context,
-        mCertainTaskList: MutableList<CertainTaskClass>,
+    mContext: Context,
+    mCertainTaskList: MutableList<CertainTaskClass>,
 ) :
-        RecyclerView.Adapter<CertainTaskAdapter.ViewHolderTask>() {
+    RecyclerView.Adapter<CertainTaskAdapter.ViewHolderTask>() {
     var mContext: Context
     var mCertainTaskList: MutableList<CertainTaskClass>
 
@@ -30,11 +31,11 @@ class CertainTaskAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderTask {
         val itemView: View =
-                LayoutInflater.from(mContext).inflate(
-                        R.layout.recyclerview_certaintasks_item,
-                        parent,
-                        false
-                )
+            LayoutInflater.from(mContext).inflate(
+                R.layout.recyclerview_certaintasks_item,
+                parent,
+                false
+            )
         return ViewHolderTask(itemView)
     }
 
@@ -65,14 +66,27 @@ class CertainTaskAdapter(
                     checkBox.text = i
                     if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
                         checkBox.isChecked = true
+                    checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if (isChecked) {
+                            val newStudans = DataUtil.addAnswer(
+                                DataUtil.int2Char(index),
+                                certainTaskClass.studans
+                            )
+                            Log.d("mTAG", "newStudans: " + newStudans)
+                            certainTaskClass.studans = newStudans
+                            mCertainTaskList[position] = certainTaskClass
+                            Log.d("mTAG", "修改后: " + certainTaskClass.studans)
+                        }
+                    }
+
                     val mParam = LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
                     )
                     mParam.setMargins(
-                            mContext.getResources().getDimension(R.dimen.mStart).toInt(),
-                            mContext.getResources().getDimension(R.dimen.mTop).toInt(),
-                            mContext.getResources().getDimension(R.dimen.mEnd).toInt(),
-                            0
+                        mContext.getResources().getDimension(R.dimen.mStart).toInt(),
+                        mContext.getResources().getDimension(R.dimen.mTop).toInt(),
+                        mContext.getResources().getDimension(R.dimen.mEnd).toInt(),
+                        0
                     )
                     checkBox.layoutParams = mParam
                     holder.linearLayout_options.addView(checkBox)

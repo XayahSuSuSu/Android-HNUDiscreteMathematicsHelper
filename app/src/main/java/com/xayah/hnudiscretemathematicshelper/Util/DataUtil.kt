@@ -1,5 +1,6 @@
 package com.xayah.hnudiscretemathematicshelper.Util
 
+import android.util.Log
 import org.json.JSONObject
 import java.net.URLEncoder
 
@@ -162,6 +163,22 @@ class DataUtil {
 
         fun char2Int(mChar: Char): Int {
             return mChar.toInt() - 65
+        }
+
+        fun addAnswer(mChar: Char, mStr: String): String {
+            if (!mStr.contains(mChar)) {
+                var mReturn = mStr + mChar
+                val mReturnArr = mutableListOf<Char>()
+                for (i in mReturn)
+                    mReturnArr.add(i)
+                mReturnArr.sort()
+                mReturn = ""
+                for (i in mReturnArr)
+                    mReturn += i
+                Log.d("mTAG", "mSort: $mReturn")
+                return mReturn
+            }
+            return mStr
         }
     }
 }

@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.xayah.hnudiscretemathematicshelper.Adapter.CertainTaskAdapter
+import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
 
@@ -35,8 +37,9 @@ class TaskActivity : AppCompatActivity() {
         recyclerView_certainTasks.setLayoutManager(layoutManager)
         recyclerView_certainTasks.overScrollMode = View.OVER_SCROLL_NEVER
         recyclerView_certainTasks.itemAnimator = DefaultItemAnimator()
+        var certainTaskList = mutableListOf<CertainTaskClass>()
         Thread {
-            val certainTaskList = NetUtil.getCertainTask(
+            certainTaskList = NetUtil.getCertainTask(
                 "studscoredetail",
                 "knowpoint,tkno,studans,scorestudnum,teachauditmsg,teachauditmsgqa,studanstext,studreply,datebegin,dateend,testtopic,id",
                 cond,
@@ -53,6 +56,12 @@ class TaskActivity : AppCompatActivity() {
             }
         }.start()
 
-
+        val floatingActionButton_upload: ExtendedFloatingActionButton =
+            findViewById(R.id.floatingActionButton_upload)
+        floatingActionButton_upload.setOnClickListener {
+            for (i in certainTaskList) {
+                Log.d("mTAG", "遍历？: " + i.studans)
+            }
+        }
     }
 }
