@@ -1,12 +1,9 @@
 package com.xayah.hnudiscretemathematicshelper.Activity
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
@@ -17,6 +14,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.xayah.acmezone.Component.NetImageView
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
+import com.xayah.hnudiscretemathematicshelper.Util.DialogUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
 import org.json.JSONException
 
@@ -29,6 +27,9 @@ class LoginActivity : AppCompatActivity() {
     lateinit var verifycodeint: String
 
     lateinit var prefs: SharedPreferences
+
+    val dialogUtil = DialogUtil(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -86,47 +87,15 @@ class LoginActivity : AppCompatActivity() {
                                 Log.d("mTAG", "init: " + mReturnBody)
                                 if (mReturnBody.contains("密码错")) {
                                     runOnUiThread {
-
-                                        val mBuilder = AlertDialog.Builder(this)
-                                            .setTitle("提示")
-                                            .setMessage("密码错误!")
-                                            .setPositiveButton("好的") { _: DialogInterface?, which: Int -> }
-                                            .setCancelable(true)
-                                            .create()
-                                        mBuilder.getWindow()
-                                            ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge)
-                                        mBuilder.show()
-                                        mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                            .setTextColor(Color.parseColor("#f88e20"))
+                                        dialogUtil.createPositiveButtonDialog("密码错误!", "好的", {})
                                     }
                                 } else if (mReturnBody.contains("不存在")) {
                                     runOnUiThread {
-
-                                        val mBuilder = AlertDialog.Builder(this)
-                                            .setTitle("提示")
-                                            .setMessage("账号不存在!")
-                                            .setPositiveButton("好的") { _: DialogInterface?, which: Int -> }
-                                            .setCancelable(true)
-                                            .create()
-                                        mBuilder.getWindow()
-                                            ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                                        mBuilder.show()
-                                        mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                            .setTextColor(Color.parseColor("#f88e20"))
+                                        dialogUtil.createPositiveButtonDialog("账号不存在!", "好的", {})
                                     }
                                 } else if (mReturnBody.contains("校验码不对")) {
                                     runOnUiThread {
-                                        val mBuilder = AlertDialog.Builder(this)
-                                            .setTitle("提示")
-                                            .setMessage("验证码错误!")
-                                            .setPositiveButton("好的") { _: DialogInterface?, which: Int -> }
-                                            .setCancelable(true)
-                                            .create()
-                                        mBuilder.getWindow()
-                                            ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                                        mBuilder.show()
-                                        mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                            .setTextColor(Color.parseColor("#f88e20"))
+                                        dialogUtil.createPositiveButtonDialog("验证码错误!", "好的", {})
                                     }
                                 } else if (mReturnBody.contains("username")) {
                                     if (checkBox_rememberPwd.isChecked) {
@@ -158,73 +127,53 @@ class LoginActivity : AppCompatActivity() {
                                         editor.apply()
                                     }
                                     runOnUiThread {
-                                        val mBuilder = AlertDialog.Builder(this)
-                                            .setTitle("提示")
-                                            .setMessage("登录成功!")
-                                            .setPositiveButton("好的") { _: DialogInterface?, which: Int ->
-                                                val intent =
-                                                    Intent(this, MainActivity::class.java)
-                                                val returnArr = mReturnBody.split("`")
-                                                for (item in returnArr) {
-                                                    if (item.contains("zh"))
-                                                        intent.putExtra("zh", item.split(":")[1])
-                                                    if (item.contains("rolename"))
-                                                        intent.putExtra(
-                                                            "rolename",
-                                                            item.split(":")[1]
-                                                        )
-                                                    if (item.contains("username"))
-                                                        intent.putExtra(
-                                                            "username",
-                                                            item.split(":")[1]
-                                                        )
-                                                    if (item.contains("schoolno"))
-                                                        intent.putExtra(
-                                                            "schoolno",
-                                                            item.split(":")[1]
-                                                        )
-                                                    if (item.contains("schoolname"))
-                                                        intent.putExtra(
-                                                            "schoolname",
-                                                            item.split(":")[1]
-                                                        )
-                                                    if (item.contains("ip"))
-                                                        intent.putExtra("ip", item.split(":")[1])
-                                                    if (item.contains("paperplannoList"))
-                                                        intent.putExtra(
-                                                            "paperplannoList",
-                                                            item.split(":")[1]
-                                                        )
-                                                }
-                                                intent.putExtra(
-                                                    "userAgent",
-                                                    prefs.getString("userAgent", "")!!
-                                                )
-                                                intent.putExtra("cookie", cookie)
-                                                startActivity(intent)
-                                                finish()
+                                        dialogUtil.createPositiveButtonDialog("登录成功!", "好的") {
+                                            val intent =
+                                                Intent(this, MainActivity::class.java)
+                                            val returnArr = mReturnBody.split("`")
+                                            for (item in returnArr) {
+                                                if (item.contains("zh"))
+                                                    intent.putExtra("zh", item.split(":")[1])
+                                                if (item.contains("rolename"))
+                                                    intent.putExtra(
+                                                        "rolename",
+                                                        item.split(":")[1]
+                                                    )
+                                                if (item.contains("username"))
+                                                    intent.putExtra(
+                                                        "username",
+                                                        item.split(":")[1]
+                                                    )
+                                                if (item.contains("schoolno"))
+                                                    intent.putExtra(
+                                                        "schoolno",
+                                                        item.split(":")[1]
+                                                    )
+                                                if (item.contains("schoolname"))
+                                                    intent.putExtra(
+                                                        "schoolname",
+                                                        item.split(":")[1]
+                                                    )
+                                                if (item.contains("ip"))
+                                                    intent.putExtra("ip", item.split(":")[1])
+                                                if (item.contains("paperplannoList"))
+                                                    intent.putExtra(
+                                                        "paperplannoList",
+                                                        item.split(":")[1]
+                                                    )
                                             }
-                                            .setCancelable(true)
-                                            .create()
-                                        mBuilder.getWindow()
-                                            ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                                        mBuilder.show()
-                                        mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                            .setTextColor(Color.parseColor("#f88e20"))
+                                            intent.putExtra(
+                                                "userAgent",
+                                                prefs.getString("userAgent", "")!!
+                                            )
+                                            intent.putExtra("cookie", cookie)
+                                            startActivity(intent)
+                                            finish()
+                                        }
                                     }
                                 } else {
                                     runOnUiThread {
-                                        val mBuilder = AlertDialog.Builder(this)
-                                            .setTitle("提示")
-                                            .setMessage("未知错误!")
-                                            .setPositiveButton("好的") { _: DialogInterface?, which: Int -> }
-                                            .setCancelable(true)
-                                            .create()
-                                        mBuilder.getWindow()
-                                            ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                                        mBuilder.show()
-                                        mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                            .setTextColor(Color.parseColor("#f88e20"))
+                                        dialogUtil.createPositiveButtonDialog("未知错误!", "好的", {})
                                     }
                                 }
                             } catch (e: JSONException) {
@@ -276,47 +225,15 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("mTAG", "init: " + mReturnBody)
                     if (mReturnBody.contains("密码错")) {
                         runOnUiThread {
-
-                            val mBuilder = AlertDialog.Builder(this)
-                                .setTitle("提示")
-                                .setMessage("密码错误!")
-                                .setPositiveButton("好的") { _: DialogInterface?, which: Int -> }
-                                .setCancelable(true)
-                                .create()
-                            mBuilder.getWindow()
-                                ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                            mBuilder.show()
-                            mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                .setTextColor(Color.parseColor("#f88e20"))
+                            dialogUtil.createPositiveButtonDialog("密码错误!", "好的", {})
                         }
                     } else if (mReturnBody.contains("不存在")) {
                         runOnUiThread {
-
-                            val mBuilder = AlertDialog.Builder(this)
-                                .setTitle("提示")
-                                .setMessage("账号不存在!")
-                                .setPositiveButton("好的") { _: DialogInterface?, which: Int -> }
-                                .setCancelable(true)
-                                .create()
-                            mBuilder.getWindow()
-                                ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                            mBuilder.show()
-                            mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                .setTextColor(Color.parseColor("#f88e20"))
+                            dialogUtil.createPositiveButtonDialog("账号不存在!", "好的", {})
                         }
                     } else if (mReturnBody.contains("校验码不对")) {
                         runOnUiThread {
-                            val mBuilder = AlertDialog.Builder(this)
-                                .setTitle("提示")
-                                .setMessage("验证码错误!")
-                                .setPositiveButton("好的") { _: DialogInterface?, which: Int -> }
-                                .setCancelable(true)
-                                .create()
-                            mBuilder.getWindow()
-                                ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                            mBuilder.show()
-                            mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                .setTextColor(Color.parseColor("#f88e20"))
+                            dialogUtil.createPositiveButtonDialog("验证码错误!", "好的", {})
                         }
                     } else if (mReturnBody.contains("username")) {
                         if (checkBox_rememberPwd.isChecked) {
@@ -345,55 +262,35 @@ class LoginActivity : AppCompatActivity() {
                             editor.apply()
                         }
                         runOnUiThread {
-                            val mBuilder = AlertDialog.Builder(this)
-                                .setTitle("提示")
-                                .setMessage("登录成功!")
-                                .setPositiveButton("好的") { _: DialogInterface?, which: Int ->
-                                    val intent =
-                                        Intent(this, MainActivity::class.java)
-                                    val returnArr = mReturnBody.split("`")
-                                    for (item in returnArr) {
-                                        if (item.contains("zh"))
-                                            intent.putExtra("zh", item.split(":")[1])
-                                        if (item.contains("rolename"))
-                                            intent.putExtra("rolename", item.split(":")[1])
-                                        if (item.contains("username"))
-                                            intent.putExtra("username", item.split(":")[1])
-                                        if (item.contains("schoolno"))
-                                            intent.putExtra("schoolno", item.split(":")[1])
-                                        if (item.contains("schoolname"))
-                                            intent.putExtra("schoolname", item.split(":")[1])
-                                        if (item.contains("ip"))
-                                            intent.putExtra("ip", item.split(":")[1])
-                                        if (item.contains("paperplannoList"))
-                                            intent.putExtra("paperplannoList", item.split(":")[1])
-                                    }
-                                    intent.putExtra("userAgent", prefs.getString("userAgent", "")!!)
-                                    intent.putExtra("cookie", cookie)
-                                    startActivity(intent)
-                                    finish()
+                            dialogUtil.createPositiveButtonDialog("登录成功!", "好的") {
+                                val intent =
+                                    Intent(this, MainActivity::class.java)
+                                val returnArr = mReturnBody.split("`")
+                                for (item in returnArr) {
+                                    if (item.contains("zh"))
+                                        intent.putExtra("zh", item.split(":")[1])
+                                    if (item.contains("rolename"))
+                                        intent.putExtra("rolename", item.split(":")[1])
+                                    if (item.contains("username"))
+                                        intent.putExtra("username", item.split(":")[1])
+                                    if (item.contains("schoolno"))
+                                        intent.putExtra("schoolno", item.split(":")[1])
+                                    if (item.contains("schoolname"))
+                                        intent.putExtra("schoolname", item.split(":")[1])
+                                    if (item.contains("ip"))
+                                        intent.putExtra("ip", item.split(":")[1])
+                                    if (item.contains("paperplannoList"))
+                                        intent.putExtra("paperplannoList", item.split(":")[1])
                                 }
-                                .setCancelable(true)
-                                .create()
-                            mBuilder.getWindow()
-                                ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                            mBuilder.show()
-                            mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                .setTextColor(Color.parseColor("#f88e20"))
+                                intent.putExtra("userAgent", prefs.getString("userAgent", "")!!)
+                                intent.putExtra("cookie", cookie)
+                                startActivity(intent)
+                                finish()
+                            }
                         }
                     } else {
                         runOnUiThread {
-                            val mBuilder = AlertDialog.Builder(this)
-                                .setTitle("提示")
-                                .setMessage("未知错误!")
-                                .setPositiveButton("好的") { _: DialogInterface?, which: Int -> }
-                                .setCancelable(true)
-                                .create()
-                            mBuilder.getWindow()
-                                ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge);
-                            mBuilder.show()
-                            mBuilder.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                                .setTextColor(Color.parseColor("#f88e20"))
+                            dialogUtil.createPositiveButtonDialog("未知错误!", "好的", {})
                         }
                     }
                 } catch (e: JSONException) {
