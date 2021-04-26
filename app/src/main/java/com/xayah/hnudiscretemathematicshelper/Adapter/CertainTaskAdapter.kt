@@ -2,8 +2,6 @@ package com.xayah.hnudiscretemathematicshelper.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +9,6 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
 import com.xayah.hnudiscretemathematicshelper.R

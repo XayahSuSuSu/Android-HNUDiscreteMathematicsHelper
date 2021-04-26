@@ -19,8 +19,6 @@ import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
 import org.json.JSONException
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 
 
 class LoginActivity : AppCompatActivity() {
@@ -73,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                     if (prefs.getBoolean("isAutoFillCode", false)) {
                         textInputEditText_code.setText(DataUtil.getVerifyCode(verifycodeint))
                     }
-                    if (prefs.getBoolean("isAutoLogin", false)){
+                    if (prefs.getBoolean("isAutoLogin", false)) {
                         Thread {
                             try {
                                 val mReturnBody = NetUtil.login(
@@ -132,7 +130,10 @@ class LoginActivity : AppCompatActivity() {
                                     }
                                 } else if (mReturnBody.contains("username")) {
                                     if (checkBox_rememberPwd.isChecked) {
-                                        editor.putString("pwd", textInputEditText_pwd.text.toString())
+                                        editor.putString(
+                                            "pwd",
+                                            textInputEditText_pwd.text.toString()
+                                        )
                                         editor.putBoolean("isRemembered", true)
                                         editor.apply()
                                     } else {
@@ -168,19 +169,37 @@ class LoginActivity : AppCompatActivity() {
                                                     if (item.contains("zh"))
                                                         intent.putExtra("zh", item.split(":")[1])
                                                     if (item.contains("rolename"))
-                                                        intent.putExtra("rolename", item.split(":")[1])
+                                                        intent.putExtra(
+                                                            "rolename",
+                                                            item.split(":")[1]
+                                                        )
                                                     if (item.contains("username"))
-                                                        intent.putExtra("username", item.split(":")[1])
+                                                        intent.putExtra(
+                                                            "username",
+                                                            item.split(":")[1]
+                                                        )
                                                     if (item.contains("schoolno"))
-                                                        intent.putExtra("schoolno", item.split(":")[1])
+                                                        intent.putExtra(
+                                                            "schoolno",
+                                                            item.split(":")[1]
+                                                        )
                                                     if (item.contains("schoolname"))
-                                                        intent.putExtra("schoolname", item.split(":")[1])
+                                                        intent.putExtra(
+                                                            "schoolname",
+                                                            item.split(":")[1]
+                                                        )
                                                     if (item.contains("ip"))
                                                         intent.putExtra("ip", item.split(":")[1])
                                                     if (item.contains("paperplannoList"))
-                                                        intent.putExtra("paperplannoList", item.split(":")[1])
+                                                        intent.putExtra(
+                                                            "paperplannoList",
+                                                            item.split(":")[1]
+                                                        )
                                                 }
-                                                intent.putExtra("userAgent", prefs.getString("userAgent", "")!!)
+                                                intent.putExtra(
+                                                    "userAgent",
+                                                    prefs.getString("userAgent", "")!!
+                                                )
                                                 intent.putExtra("cookie", cookie)
                                                 startActivity(intent)
                                                 finish()

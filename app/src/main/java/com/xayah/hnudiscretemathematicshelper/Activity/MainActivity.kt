@@ -1,15 +1,14 @@
 package com.xayah.hnudiscretemathematicshelper.Activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xayah.hnudiscretemathematicshelper.Adapter.TaskAdapter
-import com.xayah.hnudiscretemathematicshelper.Class.TaskClass
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil

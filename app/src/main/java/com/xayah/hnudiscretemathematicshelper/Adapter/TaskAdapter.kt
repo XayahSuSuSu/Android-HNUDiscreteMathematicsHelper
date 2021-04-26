@@ -1,10 +1,8 @@
 package com.xayah.hnudiscretemathematicshelper.Adapter
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +10,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
-import com.xayah.hnudiscretemathematicshelper.Activity.MainActivity
 import com.xayah.hnudiscretemathematicshelper.Activity.TaskActivity
 import com.xayah.hnudiscretemathematicshelper.Class.TaskClass
 import com.xayah.hnudiscretemathematicshelper.R

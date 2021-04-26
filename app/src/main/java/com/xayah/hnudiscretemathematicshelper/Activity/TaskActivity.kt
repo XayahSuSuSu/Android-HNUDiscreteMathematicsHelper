@@ -1,18 +1,15 @@
 package com.xayah.hnudiscretemathematicshelper.Activity
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xayah.hnudiscretemathematicshelper.Adapter.CertainTaskAdapter
-import com.xayah.hnudiscretemathematicshelper.Adapter.TaskAdapter
 import com.xayah.hnudiscretemathematicshelper.R
-import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
 
 class TaskActivity : AppCompatActivity() {
@@ -47,7 +44,7 @@ class TaskActivity : AppCompatActivity() {
                 userAgent!!,
                 cookie!!,
             )
-            for (i in certainTaskList){
+            for (i in certainTaskList) {
                 Log.d("mTAG", "遍历答案数组: " + i.certainTaskQuestionClass.qOption)
             }
             runOnUiThread {

@@ -96,8 +96,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/linearLayout_index">
@@ -124,8 +124,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/linearLayout_one">
@@ -142,9 +142,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textInputEditText_pwd"
-                            android:inputType="textPassword"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -154,8 +154,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/linearLayout_two">
@@ -164,12 +164,13 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
                         android:enabled="true"
                         android:hint="验证码"
                         app:boxStrokeColor="#6200ee"
                         app:hintTextColor="#6200ee">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textInputEditText_code"
                             android:layout_width="match_parent"
@@ -179,11 +180,11 @@
 
                     <com.xayah.acmezone.Component.NetImageView
                         android:id="@+id/imageView_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -193,8 +194,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
                     android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/linearLayout_three">
@@ -227,16 +228,16 @@
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floatingActionButton_login"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="30dp"
             android:text="登录"
             app:backgroundTint="@color/white"
-            app:icon="@drawable/ic_login"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_margin="30dp" />
+            app:icon="@drawable/ic_login" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-<!--    <com.google.android.material.navigation.NavigationView-->
+    <!--    <com.google.android.material.navigation.NavigationView-->
     <!--        android:id="@+id/main_navigationView"-->
     <!--        android:layout_width="wrap_content"-->
     <!--        android:layout_height="match_parent"-->
