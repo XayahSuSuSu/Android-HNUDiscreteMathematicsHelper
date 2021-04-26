@@ -10,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
 import com.xayah.hnudiscretemathematicshelper.R
@@ -59,6 +60,23 @@ class CertainTaskAdapter(
     override fun onBindViewHolder(holder: ViewHolderTask, position: Int) {
         holder.setIsRecyclable(false) // 复用问题导致CheckBox数据错乱,搞了我好久...
         val certainTaskClass: CertainTaskClass = mCertainTaskList.get(position)
+
+        if (certainTaskClass.scorestudnum == "10") {
+            holder.cardView.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.mGreen
+                )
+            )
+            holder.textView_subject.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.white
+                )
+            )
+        }
+
+
         if (holder.linearLayout_options.childCount == 1) {
             for ((index, i) in certainTaskClass.certainTaskQuestionClass.qOption.withIndex()) {
                 if (i.isNotEmpty()) {
@@ -66,9 +84,26 @@ class CertainTaskAdapter(
                     checkBox.text = i
                     if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
                         checkBox.isChecked = true
+                    if (certainTaskClass.scorestudnum == "10") {
+                        checkBox.setTextColor(
+                            ContextCompat.getColor(
+                                mContext,
+                                R.color.white
+                            )
+                        )
+                    }
                     checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                         if (isChecked) {
                             val newStudans = DataUtil.addAnswer(
+                                DataUtil.int2Char(index),
+                                certainTaskClass.studans
+                            )
+                            Log.d("mTAG", "newStudans: " + newStudans)
+                            certainTaskClass.studans = newStudans
+                            mCertainTaskList[position] = certainTaskClass
+                            Log.d("mTAG", "修改后: " + certainTaskClass.studans)
+                        } else {
+                            val newStudans = DataUtil.deleteAnswer(
                                 DataUtil.int2Char(index),
                                 certainTaskClass.studans
                             )

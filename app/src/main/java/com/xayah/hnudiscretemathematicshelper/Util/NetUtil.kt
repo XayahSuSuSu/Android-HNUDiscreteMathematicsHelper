@@ -28,6 +28,12 @@ class NetUtil {
         private val getCertainTaskApi =
             "http://server.wuyou.com.cn/hnuysh/getDataTop1WithFieldListNoShow.aspx"
 
+        private val commitAnswerApi =
+            "http://server.wuyou.com.cn/hnuysh/exeNonQueryUpDateInsertWithPara.aspx"
+
+        private val getIPApi = "http://ip.json-json.com/"
+
+
         fun getSchoolnodeptno(userAgent: String): String {
             var returnBody = "none"
             try {
@@ -299,5 +305,56 @@ class NetUtil {
             }
             return certainTaskList
         }// post获取特定任务
+
+        fun getIP(): String {
+            val returnBody = "none"
+            try {
+                val okHttpClient = OkHttpClient()
+                val mRequest: Request = Request.Builder()
+                    .url(getIPApi)
+                    .get()
+                    .build()
+                val mCall: Call = okHttpClient.newCall(mRequest)
+                val mResponse: Response = mCall.execute()
+                val mResponseBody: String? = mResponse.body?.string()
+                if (mResponseBody != null) {
+                    Log.d("mTAG", "getIP: $mResponseBody")
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            return returnBody
+        }// get获取IP地址
+
+
+        fun commitAnswer(
+            sqlState: String,
+            userAgent: String,
+            cookie: String
+        ): String {
+            var mResponseBody = ""
+            try {
+                val okHttpClient = OkHttpClient()
+                val mRequestBody: RequestBody = FormBody.Builder()
+                    .add("sqlState", sqlState)
+                    .build()
+                val mRequest: Request = Request.Builder()
+                    .url(commitAnswerApi)
+                    .addHeader("Accept", "*/*")
+                    .addHeader("Referer", "http://server.wuyou.com.cn/hnuysh/homestudent.htm")
+                    .addHeader("Connection", "keep-alive")
+                    .addHeader("User-Agent", userAgent)
+                    .addHeader("Cookie", cookie)
+                    .post(mRequestBody)
+                    .build()
+                val mCall: Call = okHttpClient.newCall(mRequest)
+                val mResponse: Response = mCall.execute()
+                mResponseBody = mResponse.body?.string().toString()
+                Log.d("mTAG", "commitAnswer: $mResponseBody")
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            return mResponseBody
+        }// post提交答案
     }
 }

@@ -12,7 +12,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.xayah.hnudiscretemathematicshelper.Adapter.CertainTaskAdapter
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
 import com.xayah.hnudiscretemathematicshelper.R
+import com.xayah.hnudiscretemathematicshelper.Util.DataUtil.Companion.modifyAnswer
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
+import com.xayah.hnudiscretemathematicshelper.Util.NetUtil.Companion.commitAnswer
 
 class TaskActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +61,15 @@ class TaskActivity : AppCompatActivity() {
         val floatingActionButton_upload: ExtendedFloatingActionButton =
             findViewById(R.id.floatingActionButton_upload)
         floatingActionButton_upload.setOnClickListener {
+            Thread {
+                val sqlState = modifyAnswer(certainTaskList)
+                Log.d("mTAG", "modifyAnswer: $sqlState")
+
+                commitAnswer(sqlState, userAgent!!, cookie!!)
+
+            }.start()
             for (i in certainTaskList) {
-                Log.d("mTAG", "遍历？: " + i.studans)
+                Log.d("mTAG", "遍历得分: " + i.scorestudnum)
             }
         }
     }
