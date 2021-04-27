@@ -2,7 +2,6 @@ package com.xayah.hnudiscretemathematicshelper.Util
 
 import android.util.Log
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
-import com.xayah.hnudiscretemathematicshelper.Util.NetUtil.Companion.getIP
 import org.json.JSONObject
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
@@ -180,15 +179,16 @@ class DataUtil {
                 for (i in mReturnArr)
                     mReturn += i
                 Log.d("mTAG", "mSort: $mReturn")
+                mReturn = mReturn.replace("-", "")
                 return mReturn
             }
             return mStr
         }
 
         fun deleteAnswer(mChar: Char, mStr: String): String {
-            var mReturn = mStr
+            val mReturn: String
             if (mStr.contains(mChar)) {
-                mReturn = mStr.replace(mChar.toString(), "")
+                mReturn = mStr.replace(mChar.toString(), "").replace("-", "")
                 return mReturn
             }
             return mStr
@@ -202,14 +202,15 @@ class DataUtil {
             return mTime
         }
 
-        fun modifyAnswer(mCertainTaskList: MutableList<CertainTaskClass>): String {
+        fun modifyAnswer(mIP: String, mCertainTaskList: MutableList<CertainTaskClass>): String {
             var sqlState = ""
+            Log.d("mTAG", "mIP: " + mIP)
             for ((index, i) in mCertainTaskList.withIndex()) {
                 if (index == 0) {
                     sqlState =
-                        "update`c`studscoredetail`studans`c`" + i.studans + "`studanstext`c`" + "-" + "`scorestudnum`n`(case  when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND cast(stanardans as varchar(max))='" + i.studans + "') then scorestandard when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND RTRIM(cast(stanardans as varchar(max)))<>'" + i.studans + "') then 0 else scorestudnum  end)" + "`datestudsubmit`c`" + GetTime() + "`ipstud`c`" + getIP() + "`where`1`id='" + i.id + "'"
+                        "update`c`studscoredetail`studans`c`" + i.studans + "`studanstext`c`" + "-" + "`scorestudnum`n`(case  when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND cast(stanardans as varchar(max))='" + i.studans + "') then scorestandard when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND RTRIM(cast(stanardans as varchar(max)))<>'" + i.studans + "') then 0 else scorestudnum  end)" + "`datestudsubmit`c`" + GetTime() + "`ipstud`c`" + mIP + "`where`1`id='" + i.id + "'"
                 } else {
-                    sqlState += "~yshsxzyqy~update`c`studscoredetail`studans`c`" + i.studans + "`studanstext`c`" + "-" + "`scorestudnum`n`(case  when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND cast(stanardans as varchar(max))='" + i.studans + "') then scorestandard when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND RTRIM(cast(stanardans as varchar(max)))<>'" + i.studans + "') then 0 else scorestudnum  end)" + "`datestudsubmit`c`" + GetTime() + "`ipstud`c`" + getIP() + "`where`1`id='" + i.id + "'"
+                    sqlState += "~yshsxzyqy~update`c`studscoredetail`studans`c`" + i.studans + "`studanstext`c`" + "-" + "`scorestudnum`n`(case  when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND cast(stanardans as varchar(max))='" + i.studans + "') then scorestandard when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND RTRIM(cast(stanardans as varchar(max)))<>'" + i.studans + "') then 0 else scorestudnum  end)" + "`datestudsubmit`c`" + GetTime() + "`ipstud`c`" + mIP + "`where`1`id='" + i.id + "'"
                 }
             }
             return sqlState

@@ -307,7 +307,7 @@ class NetUtil {
         }// post获取特定任务
 
         fun getIP(): String {
-            val returnBody = "none"
+            var returnBody = "none"
             try {
                 val okHttpClient = OkHttpClient()
                 val mRequest: Request = Request.Builder()
@@ -319,6 +319,7 @@ class NetUtil {
                 val mResponseBody: String? = mResponse.body?.string()
                 if (mResponseBody != null) {
                     Log.d("mTAG", "getIP: $mResponseBody")
+                    returnBody = mResponseBody
                 }
             } catch (e: IOException) {
                 e.printStackTrace()

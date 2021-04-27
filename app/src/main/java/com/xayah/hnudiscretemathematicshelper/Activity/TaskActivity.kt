@@ -13,10 +13,14 @@ import com.xayah.hnudiscretemathematicshelper.Adapter.CertainTaskAdapter
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil.Companion.modifyAnswer
+import com.xayah.hnudiscretemathematicshelper.Util.DialogUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil.Companion.commitAnswer
+import com.xayah.hnudiscretemathematicshelper.Util.NetUtil.Companion.getIP
 
 class TaskActivity : AppCompatActivity() {
+    val dialogUtil = DialogUtil(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
@@ -62,10 +66,16 @@ class TaskActivity : AppCompatActivity() {
             findViewById(R.id.floatingActionButton_upload)
         floatingActionButton_upload.setOnClickListener {
             Thread {
-                val sqlState = modifyAnswer(certainTaskList)
+                val mIP = getIP()
+                val sqlState = modifyAnswer(mIP, certainTaskList)
                 Log.d("mTAG", "modifyAnswer: $sqlState")
-
-                commitAnswer(sqlState, userAgent!!, cookie!!)
+                val mReturn = commitAnswer(sqlState, userAgent!!, cookie!!)
+                runOnUiThread {
+                    dialogUtil.createPositiveButtonDialog(
+                        mReturn,
+                        "好的"
+                    ) {}
+                }
 
             }.start()
             for (i in certainTaskList) {
