@@ -3,4 +3,6 @@
     <dimen name="mStart">15dp</dimen>
     <dimen name="mEnd">15dp</dimen>
     <dimen name="mTop">10dp</dimen>
+    <dimen name="mProgressBarDialogTop">70dp</dimen>
+    <dimen name="mProgressBarDialogBottom">40dp</dimen>
 </resources>

@@ -11,14 +11,17 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.xayah.hnudiscretemathematicshelper.Adapter.TaskAdapter
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
+import com.xayah.hnudiscretemathematicshelper.Util.DialogUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
 
 class MainActivity : AppCompatActivity() {
+    private val dialogUtil = DialogUtil(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
-
+//        dialogUtil.createProgressDialog()
     }
 
     private fun init() {
