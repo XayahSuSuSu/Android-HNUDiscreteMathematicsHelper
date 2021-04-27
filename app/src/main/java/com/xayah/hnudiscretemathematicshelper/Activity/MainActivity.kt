@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.xayah.hnudiscretemathematicshelper.Adapter.TaskAdapter
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
@@ -25,6 +27,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        val nestedScrollView_main: NestedScrollView = findViewById(R.id.nestedScrollView_main)
+        val floatingActionButton_refresh: ExtendedFloatingActionButton =
+            findViewById(R.id.floatingActionButton_refresh)
+//        nestedScrollView_main.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+//
+////            val contentView = nestedScrollView_main.getChildAt(0)
+////            if (scrollY + v.height == contentView.measuredHeight) {
+////                floatingActionButton_refresh.visibility = View.GONE
+////            } else {
+////                floatingActionButton_refresh.visibility = View.VISIBLE
+////            }
+//            if (scrollY > oldScrollY) {
+//                floatingActionButton_refresh.shrink()
+//            }
+//            Log.d("mTAG", "scrollY: " + scrollY)
+//            Log.d("mTAG", "oldScrollY: " + oldScrollY)
+//
+//        }
+
+
         val zh = intent.getStringExtra("zh")
         val rolename = intent.getStringExtra("rolename")
         val username = intent.getStringExtra("username")

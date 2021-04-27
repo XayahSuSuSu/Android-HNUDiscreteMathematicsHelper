@@ -63,11 +63,11 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView_task"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:fillViewport="true"
-
-
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.recyclerview.widget.RecyclerView
