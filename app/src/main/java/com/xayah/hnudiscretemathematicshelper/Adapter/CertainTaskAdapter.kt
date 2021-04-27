@@ -2,6 +2,8 @@ package com.xayah.hnudiscretemathematicshelper.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -82,6 +84,8 @@ class CertainTaskAdapter(
                 if (i.isNotEmpty()) {
                     val checkBox = CheckBox(mContext)
                     checkBox.text = i
+                    if (certainTaskClass.scorestudnum == "10")
+                        checkBox.buttonTintList = ColorStateList.valueOf(Color.WHITE)
                     if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
                         checkBox.isChecked = true
                     if (certainTaskClass.scorestudnum == "10") {
