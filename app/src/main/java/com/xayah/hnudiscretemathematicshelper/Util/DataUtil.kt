@@ -215,5 +215,10 @@ class DataUtil {
             }
             return sqlState
         }
+
+        fun isProperTime(mStartTime: String, mEndTime: String): Boolean {
+            return mStartTime.trim().toLong() < GetTime().trim().toLong() && GetTime().trim().toLong() < mEndTime.trim().toLong()
+        }
+
     }
 }

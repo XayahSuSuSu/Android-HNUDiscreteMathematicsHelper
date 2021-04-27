@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.xayah.hnudiscretemathematicshelper.Activity.TaskActivity
 import com.xayah.hnudiscretemathematicshelper.Class.TaskClass
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
+import com.xayah.hnudiscretemathematicshelper.Util.DialogUtil
 
 class TaskAdapter(
     mContext: Context,
@@ -79,6 +81,22 @@ class TaskAdapter(
         holder.textView_time.text =
             datebeginJSONObject.getString("time") + " - " + dateendJSONObject.getString("time")
 
+        if (!DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend)) {
+            holder.textView_examperoid.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.mRed
+                )
+            )
+        } else {
+            holder.textView_examperoid.setTextColor(
+                ContextCompat.getColor(
+                    mContext,
+                    R.color.mGreen
+                )
+            )
+        }
+
         holder.textView_papername.setEllipsize(TextUtils.TruncateAt.MARQUEE)
         holder.textView_papername.setSingleLine(true)
         holder.textView_papername.setSelected(true)
@@ -101,15 +119,20 @@ class TaskAdapter(
         holder.textView_time.setFocusableInTouchMode(true)
 
         holder.cardView.setOnClickListener {
-            val intent =
-                Intent(mContext, TaskActivity::class.java)
-            intent.putExtra("schoolno", taskClass.schoolno)
-            intent.putExtra("zh", mZh)
-            intent.putExtra("id", taskClass.id)
-            intent.putExtra("papername", taskClass.papername)
-            intent.putExtra("userAgent", mUserAgent)
-            intent.putExtra("cookie", mCookie)
-            mContext.startActivity(intent)
+            if (!DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend)) {
+                val dialogUtil = DialogUtil(mContext)
+                dialogUtil.createPositiveButtonDialog("试卷已过期!", "好的", {})
+            } else {
+                val intent =
+                    Intent(mContext, TaskActivity::class.java)
+                intent.putExtra("schoolno", taskClass.schoolno)
+                intent.putExtra("zh", mZh)
+                intent.putExtra("id", taskClass.id)
+                intent.putExtra("papername", taskClass.papername)
+                intent.putExtra("userAgent", mUserAgent)
+                intent.putExtra("cookie", mCookie)
+                mContext.startActivity(intent)
+            }
         }
     }
 

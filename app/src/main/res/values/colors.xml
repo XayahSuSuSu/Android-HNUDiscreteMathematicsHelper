@@ -9,4 +9,15 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="mGreen">#4aca6d</color>
+    <color name="mGreen_WeChat">#03d568</color>
+    <color name="mPink">#fa7298</color>
+    <color name="mRed">#e72d2c</color>
+    <color name="mOrange">#FF5C00</color>
+    <color name="mBlue">#3385FF</color>
+    <color name="mGrayDark">#636363</color>
+    <color name="mGrayLight">#F6F6F6</color>
+    <color name="mGrayBackground">#f7f7f7</color>
+
+    <color name="mtrl_textinput_default_box_stroke_color">#000</color>
+    <color name="mPurple">#6200ee</color>
 </resources>
