@@ -65,6 +65,7 @@ class DialogUtil(var mContext: Context) {
     }
 
     fun createCustomButtonDialog(
+        title: String,
         message: String,
         positiveText: String,
         negativeText: String,
@@ -72,7 +73,7 @@ class DialogUtil(var mContext: Context) {
         negativeEvent: () -> Unit
     ) {
         val builder = AlertDialog.Builder(mContext)
-            .setTitle("提示")
+            .setTitle(title)
             .setMessage(message)
             .setCancelable(false)
             .setPositiveButton(positiveText) { _: DialogInterface?, _: Int -> positiveEvent() }
@@ -83,8 +84,8 @@ class DialogUtil(var mContext: Context) {
         builder.show()
 //        builder.getButton(AlertDialog.BUTTON_POSITIVE)
 //            .setTextColor(Color.parseColor("#f88e20"))
-//        builder.getButton(DialogInterface.BUTTON_NEGATIVE)
-//            .setTextColor(Color.RED)
+        builder.getButton(DialogInterface.BUTTON_NEGATIVE)
+            .setTextColor(Color.RED)
         val params: WindowManager.LayoutParams = builder.window!!.attributes
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             params.width = mContext.display!!.width - 200
