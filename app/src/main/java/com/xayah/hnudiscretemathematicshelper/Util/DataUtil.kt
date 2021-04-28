@@ -217,9 +217,16 @@ class DataUtil {
             return sqlState
         }
 
-        fun isProperTime(mStartTime: String, mEndTime: String): Boolean {
-            return mStartTime.trim().toLong() < GetTime().trim().toLong() && GetTime().trim()
-                .toLong() < mEndTime.trim().toLong()
+        fun isProperTime(mStartTime: String, mEndTime: String): String {
+            if (mStartTime.trim().toLong() > GetTime().trim().toLong()) {
+                return "aheadDate"
+            } else if (GetTime().trim()
+                    .toLong() > mEndTime.trim().toLong()
+            ) {
+                return "outDate"
+            } else {
+                return "properDate"
+            }
         }
 
         fun getImageUrl(mQTitle: String): MutableList<String> {

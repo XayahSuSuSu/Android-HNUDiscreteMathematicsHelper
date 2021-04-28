@@ -35,7 +35,7 @@ class TaskActivity : AppCompatActivity() {
         val papername = intent.getStringExtra("papername")
         val userAgent = intent.getStringExtra("userAgent")
         val cookie = intent.getStringExtra("cookie")
-        val isOutDate = intent.getBooleanExtra("isOutDate", true)
+        val isOutDate = intent.getStringExtra("isOutDate")
         val task_textView_taskName: TextView = findViewById(R.id.task_textView_taskName)
         val cond = "schoolno='$schoolno' AND zh='$zh' AND paperplanId=$id"
         Log.d("mTAG", "init: " + cond)
@@ -75,7 +75,7 @@ class TaskActivity : AppCompatActivity() {
         val floatingActionButton_upload: ExtendedFloatingActionButton =
             findViewById(R.id.floatingActionButton_upload)
         floatingActionButton_upload.setOnClickListener {
-            if (isOutDate) {
+            if (isOutDate=="outDate") {
                 dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {}
             } else if (certainTaskList[0].certainTaskQuestionClass.qAnswer.toInt() >= 10) {
                 dialogUtil.createPositiveButtonDialog("暂不支持非客观题作答!", "好的") {}

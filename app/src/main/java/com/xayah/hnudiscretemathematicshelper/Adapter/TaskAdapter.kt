@@ -81,7 +81,7 @@ class TaskAdapter(
         holder.textView_time.text =
             datebeginJSONObject.getString("time") + " - " + dateendJSONObject.getString("time")
 
-        if (!DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend)) {
+        if (DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend) != "properDate") {
             holder.textView_examperoid.setTextColor(
                 ContextCompat.getColor(
                     mContext,
@@ -119,7 +119,12 @@ class TaskAdapter(
         holder.textView_time.setFocusableInTouchMode(true)
 
         holder.cardView.setOnClickListener {
-            if (!DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend)) {
+            if (DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend) == "aheadDate") {
+                val dialogUtil = DialogUtil(mContext)
+                dialogUtil.createPositiveButtonDialog("试卷还未到开始时间!", "好的") {
+                }
+
+            } else if (DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend) == "outDate") {
                 val dialogUtil = DialogUtil(mContext)
                 dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {
                     val intent =
@@ -130,10 +135,9 @@ class TaskAdapter(
                     intent.putExtra("papername", taskClass.papername)
                     intent.putExtra("userAgent", mUserAgent)
                     intent.putExtra("cookie", mCookie)
-                    intent.putExtra("isOutDate", true)
+                    intent.putExtra("isOutDate", "outDate")
                     mContext.startActivity(intent)
                 }
-
             } else {
                 val intent =
                     Intent(mContext, TaskActivity::class.java)
@@ -143,7 +147,7 @@ class TaskAdapter(
                 intent.putExtra("papername", taskClass.papername)
                 intent.putExtra("userAgent", mUserAgent)
                 intent.putExtra("cookie", mCookie)
-                intent.putExtra("isOutDate", false)
+                intent.putExtra("isOutDate", "properDate")
                 mContext.startActivity(intent)
             }
         }
