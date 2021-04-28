@@ -190,7 +190,7 @@ class CertainTaskAdapter(
                     Log.d("mTAG", "是单选题")
                     val radioButton = RadioButton(mContext)
                     radioButton.id = View.generateViewId()
-                    radioButton.text = i
+                    radioButton.text = "{见下图}"
                     if (certainTaskClass.scorestudnum == "10")
                         radioButton.buttonTintList = ColorStateList.valueOf(Color.WHITE)
                     if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
@@ -224,6 +224,40 @@ class CertainTaskAdapter(
                     val mRadioGroup: RadioGroup =
                         holder.linearLayout_options.findViewWithTag("mRadioGroup")
                     mRadioGroup.addView(radioButton)
+
+                    if (i.contains("<img src=")) {
+                        val mImageUrlList =
+                            DataUtil.getImageUrl(i)
+                        for ((index, imgUrl) in mImageUrlList.withIndex()) {
+                            if (index == 0 && imgUrl.isNotEmpty()) {
+                                radioButton.text = "$imgUrl{见下图}"
+                            } else
+                                if (index == mImageUrlList.size - 1 && imgUrl.isNotEmpty()) {
+                                    radioButton.text = radioButton.text.toString() + imgUrl
+                                } else {
+                                    if (imgUrl.isNotEmpty()) {
+                                        val netImageView = NetImageView(mContext)
+                                        netImageView.setImageURL(imgUrl)
+                                        val mParam = LinearLayout.LayoutParams(
+                                            ViewGroup.LayoutParams.MATCH_PARENT,
+                                            ViewGroup.LayoutParams.WRAP_CONTENT
+                                        )
+                                        mParam.setMargins(
+                                            mContext.resources.getDimension(R.dimen.mStart).toInt(),
+                                            0,
+                                            mContext.resources.getDimension(R.dimen.mEnd).toInt(),
+                                            0
+                                        )
+                                        netImageView.layoutParams = mParam
+                                        val mRadioGroup: RadioGroup =
+                                            holder.linearLayout_options.findViewWithTag("mRadioGroup")
+                                        mRadioGroup.addView(netImageView)
+                                    }
+                                }
+                        }
+                    } else {
+                        radioButton.text = i
+                    }
                 } else {
                     val checkBox = CheckBox(mContext)
                     checkBox.text = i
@@ -272,6 +306,37 @@ class CertainTaskAdapter(
                     )
                     checkBox.layoutParams = mParam
                     holder.linearLayout_options.addView(checkBox)
+                    if (i.contains("<img src=")) {
+                        val mImageUrlList =
+                            DataUtil.getImageUrl(i)
+                        for ((mCheckBoxindex, imgUrl) in mImageUrlList.withIndex()) {
+                            if (mCheckBoxindex == 0 && imgUrl.isNotEmpty()) {
+                                checkBox.text = "$imgUrl{见下图}"
+                            } else
+                                if (mCheckBoxindex == mImageUrlList.size - 1 && imgUrl.isNotEmpty()) {
+                                    checkBox.text = checkBox.text.toString() + imgUrl
+                                } else {
+                                    if (imgUrl.isNotEmpty()) {
+                                        val netImageView = NetImageView(mContext)
+                                        netImageView.setImageURL(imgUrl)
+                                        val mCheckBoxParam = LinearLayout.LayoutParams(
+                                            ViewGroup.LayoutParams.MATCH_PARENT,
+                                            ViewGroup.LayoutParams.WRAP_CONTENT
+                                        )
+                                        mCheckBoxParam.setMargins(
+                                            mContext.resources.getDimension(R.dimen.mStart).toInt(),
+                                            0,
+                                            mContext.resources.getDimension(R.dimen.mEnd).toInt(),
+                                            0
+                                        )
+                                        netImageView.layoutParams = mCheckBoxParam
+                                        holder.linearLayout_options.addView(netImageView)
+                                    }
+                                }
+                        }
+                    } else {
+                        checkBox.text = i
+                    }
                 }
 
 
