@@ -16,15 +16,15 @@ class DialogUtil(var mContext: Context) {
         val builder = AlertDialog.Builder(mContext)
             .setTitle("提示")
             .setMessage(message)
-            .setCancelable(true)
+            .setCancelable(false)
             .setPositiveButton("确定") { _: DialogInterface?, which: Int -> positiveEvent() }
             .setNegativeButton("取消") { _: DialogInterface?, which: Int -> negativeEvent() }
             .create()
         builder.window
             ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge)
         builder.show()
-        builder.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(Color.parseColor("#f88e20"));
+//        builder.getButton(AlertDialog.BUTTON_POSITIVE)
+//            .setTextColor(Color.parseColor("#f88e20"))
         builder.getButton(DialogInterface.BUTTON_NEGATIVE)
             .setTextColor(Color.RED)
         val params: WindowManager.LayoutParams = builder.window!!.attributes
@@ -40,7 +40,7 @@ class DialogUtil(var mContext: Context) {
     ) {
         val builder = AlertDialog.Builder(mContext)
             .setTitle("请稍后")
-            .setCancelable(true)
+            .setCancelable(false)
             .create()
         builder.window
             ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge)
@@ -74,17 +74,17 @@ class DialogUtil(var mContext: Context) {
         val builder = AlertDialog.Builder(mContext)
             .setTitle("提示")
             .setMessage(message)
-            .setCancelable(true)
+            .setCancelable(false)
             .setPositiveButton(positiveText) { _: DialogInterface?, _: Int -> positiveEvent() }
             .setNegativeButton(negativeText) { _: DialogInterface?, _: Int -> negativeEvent() }
             .create()
         builder.window
             ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge)
         builder.show()
-        builder.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(Color.parseColor("#f88e20"));
-        builder.getButton(DialogInterface.BUTTON_NEGATIVE)
-            .setTextColor(Color.RED)
+//        builder.getButton(AlertDialog.BUTTON_POSITIVE)
+//            .setTextColor(Color.parseColor("#f88e20"))
+//        builder.getButton(DialogInterface.BUTTON_NEGATIVE)
+//            .setTextColor(Color.RED)
         val params: WindowManager.LayoutParams = builder.window!!.attributes
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             params.width = mContext.display!!.width - 200
@@ -102,14 +102,14 @@ class DialogUtil(var mContext: Context) {
         val builder = AlertDialog.Builder(mContext)
             .setTitle("提示")
             .setMessage(message)
-            .setCancelable(true)
+            .setCancelable(false)
             .setPositiveButton(positiveText) { _: DialogInterface?, _: Int -> positiveEvent() }
             .create()
         builder.window
             ?.setBackgroundDrawableResource(R.drawable.drawable_round_edge)
         builder.show()
-        builder.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(Color.parseColor("#f88e20"));
+//        builder.getButton(AlertDialog.BUTTON_POSITIVE)
+//            .setTextColor(Color.parseColor("#f88e20"))
         val params: WindowManager.LayoutParams = builder.window!!.attributes
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             params.width = mContext.display!!.width - 200
