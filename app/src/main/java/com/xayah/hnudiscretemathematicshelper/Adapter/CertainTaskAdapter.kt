@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
+import com.xayah.hnudiscretemathematicshelper.Component.NetImageView
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 
@@ -62,6 +63,66 @@ class CertainTaskAdapter(
     override fun onBindViewHolder(holder: ViewHolderTask, position: Int) {
         holder.setIsRecyclable(false) // 复用问题导致CheckBox数据错乱,搞了我好久...
         val certainTaskClass: CertainTaskClass = mCertainTaskList.get(position)
+
+        if (certainTaskClass.certainTaskQuestionClass.qTitle.contains("<img src=")) {
+//            holder.linearLayout_options.removeAllViews()
+            val mImageUrlList =
+                DataUtil.getImageUrl(certainTaskClass.certainTaskQuestionClass.qTitle)
+            holder.textView_subject.visibility = View.GONE
+            for ((index, imgUrl) in mImageUrlList.withIndex()) {
+                if (index == 0 && imgUrl.isNotEmpty()) {
+                    val textView = TextView(mContext)
+                    textView.setText(imgUrl)
+                    val mParam = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    mParam.setMargins(
+                        mContext.resources.getDimension(R.dimen.mStart).toInt(),
+                        0,
+                        mContext.resources.getDimension(R.dimen.mEnd).toInt(),
+                        0
+                    )
+                    textView.layoutParams = mParam
+                    holder.linearLayout_options.addView(textView)
+                } else
+                    if (index == mImageUrlList.size - 1 && imgUrl.isNotEmpty()) {
+                        val textView = TextView(mContext)
+                        textView.setText(imgUrl)
+                        val mParam = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                        mParam.setMargins(
+                            mContext.resources.getDimension(R.dimen.mStart).toInt(),
+                            0,
+                            mContext.resources.getDimension(R.dimen.mEnd).toInt(),
+                            0
+                        )
+                        textView.layoutParams = mParam
+                        holder.linearLayout_options.addView(textView)
+                    } else {
+                        if (imgUrl.isNotEmpty()) {
+                            val netImageView = NetImageView(mContext)
+                            netImageView.setImageURL(imgUrl)
+                            val mParam = LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                            )
+                            mParam.setMargins(
+                                mContext.resources.getDimension(R.dimen.mStart).toInt(),
+                                0,
+                                mContext.resources.getDimension(R.dimen.mEnd).toInt(),
+                                0
+                            )
+                            netImageView.layoutParams = mParam
+                            holder.linearLayout_options.addView(netImageView)
+                        }
+
+                    }
+            }
+        } else {
+            holder.textView_subject.text = certainTaskClass.certainTaskQuestionClass.qTitle
+        }
+
 
         if (certainTaskClass.scorestudnum == "10") {
             holder.cardView.setCardBackgroundColor(
@@ -132,6 +193,5 @@ class CertainTaskAdapter(
                 }
             }
         }
-        holder.textView_subject.text = certainTaskClass.certainTaskQuestionClass.qTitle
     }
 }

@@ -1,5 +1,6 @@
 package com.xayah.hnudiscretemathematicshelper.Util
 
+import android.content.Context
 import android.util.Log
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
 import org.json.JSONObject
@@ -217,8 +218,58 @@ class DataUtil {
         }
 
         fun isProperTime(mStartTime: String, mEndTime: String): Boolean {
-            return mStartTime.trim().toLong() < GetTime().trim().toLong() && GetTime().trim().toLong() < mEndTime.trim().toLong()
+            return mStartTime.trim().toLong() < GetTime().trim().toLong() && GetTime().trim()
+                .toLong() < mEndTime.trim().toLong()
         }
 
+        fun getImageUrl(mQTitle: String): MutableList<String> {
+            val mUrlList = mutableListOf<String>()
+            val mUrls =
+                mQTitle.substring(mQTitle.indexOf("<img src="), mQTitle.lastIndexOf(">") + 1).trim()
+            Log.d("mTAG", "mUrls: " + mUrls)
+            if (mUrls.trim() == mQTitle) {
+                mUrlList.add("")
+                val mReturn =
+                    mUrls.replace("</img>", "").replace("‘", "\"").replace("\" border=\"0\">", "")
+                        .split("<img src=\"")
+                Log.d("mTAG", "mReturn: " + mReturn)
+                for (i in mReturn) {
+                    if (!i.isEmpty())
+                        mUrlList.add(i)
+                }
+                mUrlList.add("")
+            } else {
+                val mTextTitleLeft = mQTitle.substring(0, mQTitle.indexOf("<img src=")).trim()
+                val mTextTitleRight =
+                    mQTitle.substring(mQTitle.lastIndexOf(">") + 1, mQTitle.lastIndex).trim()
+                mUrlList.add(mTextTitleLeft)
+                Log.d("mTAG", "mTextTitleLeft: " + mTextTitleLeft)
+                Log.d("mTAG", "mTextTitleRight: " + mTextTitleRight)
+                val mReturn =
+                    mUrls.replace("</img>", "").replace("‘", "\"").replace("\" border=\"0\">", "")
+                        .split("<img src=\"")
+                Log.d("mTAG", "mReturn: " + mReturn)
+                for (i in mReturn) {
+                    if (!i.isEmpty())
+                        mUrlList.add(i)
+                }
+                mUrlList.add(mTextTitleRight)
+            }
+
+
+            return mUrlList
+        }
+
+        fun getVersion(mContext: Context): String? {
+            return try {
+                val manager = mContext.packageManager
+                val info = manager.getPackageInfo(mContext.packageName, 0)
+                val version = info.versionName
+                version
+            } catch (e: Exception) {
+                e.printStackTrace()
+                "无法获取到版本号"
+            }
+        }
     }
 }

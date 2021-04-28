@@ -12,6 +12,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.xayah.hnudiscretemathematicshelper.Adapter.CertainTaskAdapter
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
 import com.xayah.hnudiscretemathematicshelper.R
+import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil.Companion.modifyAnswer
 import com.xayah.hnudiscretemathematicshelper.Util.DialogUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
@@ -55,6 +56,14 @@ class TaskActivity : AppCompatActivity() {
             )
             for (i in certainTaskList) {
                 Log.d("mTAG", "遍历答案数组: " + i.certainTaskQuestionClass.qOption)
+                if (i.certainTaskQuestionClass.qTitle.contains("<img src=")) {
+                    DataUtil.getImageUrl(i.certainTaskQuestionClass.qTitle)
+//                    val dialogUtil = DialogUtil(this)
+//                    runOnUiThread {
+//                        dialogUtil.createPositiveButtonDialog("暂不支持客观题!", "好的", {finish()})
+//                    }
+//                    break
+                }
             }
             runOnUiThread {
                 val mCertainTaskAdapter = CertainTaskAdapter(this, certainTaskList)
@@ -81,6 +90,7 @@ class TaskActivity : AppCompatActivity() {
             for (i in certainTaskList) {
                 Log.d("mTAG", "遍历得分: " + i.scorestudnum)
             }
+
         }
     }
 }
