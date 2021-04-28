@@ -223,14 +223,19 @@ class DataUtil {
         }
 
         fun getImageUrl(mQTitle: String): MutableList<String> {
+            val mQTitleTmp = mQTitle.replace("</img>", "")
+            Log.d("mTAG", "mQTitleTmp: " + mQTitleTmp)
             val mUrlList = mutableListOf<String>()
             val mUrls =
-                mQTitle.substring(mQTitle.indexOf("<img src="), mQTitle.lastIndexOf(">") + 1).trim()
+                mQTitleTmp.substring(
+                    mQTitleTmp.indexOf("<img src="),
+                    mQTitleTmp.lastIndexOf(">") + 1
+                ).trim()
             Log.d("mTAG", "mUrls: " + mUrls)
-            if (mUrls.trim() == mQTitle) {
+            if (mUrls.trim() == mQTitleTmp) {
                 mUrlList.add("")
                 val mReturn =
-                    mUrls.replace("</img>", "").replace("‘", "\"").replace("\" border=\"0\">", "")
+                    mUrls.replace("‘", "\"").replace("\" border=\"0\">", "")
                         .split("<img src=\"")
                 Log.d("mTAG", "mReturn: " + mReturn)
                 for (i in mReturn) {
@@ -239,14 +244,19 @@ class DataUtil {
                 }
                 mUrlList.add("")
             } else {
-                val mTextTitleLeft = mQTitle.substring(0, mQTitle.indexOf("<img src=")).trim()
-                val mTextTitleRight =
-                    mQTitle.substring(mQTitle.lastIndexOf(">") + 1, mQTitle.lastIndex).trim()
+                val mTextTitleLeft = mQTitleTmp.substring(0, mQTitleTmp.indexOf("<img src=")).trim()
+                var mTextTitleRight = ""
+                if (mQTitleTmp.lastIndexOf(">") != mQTitleTmp.lastIndex){
+                    mTextTitleRight =
+                        mQTitleTmp.substring(mQTitleTmp.lastIndexOf(">") + 1, mQTitleTmp.lastIndex)
+                            .trim()
+                }
+
                 mUrlList.add(mTextTitleLeft)
                 Log.d("mTAG", "mTextTitleLeft: " + mTextTitleLeft)
                 Log.d("mTAG", "mTextTitleRight: " + mTextTitleRight)
                 val mReturn =
-                    mUrls.replace("</img>", "").replace("‘", "\"").replace("\" border=\"0\">", "")
+                    mUrls.replace("‘", "\"").replace("\" border=\"0\">", "")
                         .split("<img src=\"")
                 Log.d("mTAG", "mReturn: " + mReturn)
                 for (i in mReturn) {
