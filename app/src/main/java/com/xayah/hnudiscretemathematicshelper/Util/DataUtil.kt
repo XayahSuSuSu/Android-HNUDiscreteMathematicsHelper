@@ -246,7 +246,7 @@ class DataUtil {
             } else {
                 val mTextTitleLeft = mQTitleTmp.substring(0, mQTitleTmp.indexOf("<img src=")).trim()
                 var mTextTitleRight = ""
-                if (mQTitleTmp.lastIndexOf(">") != mQTitleTmp.lastIndex){
+                if (mQTitleTmp.lastIndexOf(">") != mQTitleTmp.lastIndex) {
                     mTextTitleRight =
                         mQTitleTmp.substring(mQTitleTmp.lastIndexOf(">") + 1, mQTitleTmp.lastIndex)
                             .trim()
