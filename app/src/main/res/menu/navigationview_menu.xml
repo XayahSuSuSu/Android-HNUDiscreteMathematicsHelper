@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_website"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_website_system"
+            android:icon="@drawable/ic_system"
+            android:title="教学辅助系统" />
+
+        <item
+            android:id="@+id/item_website_AcmeZone"
+            android:icon="@drawable/ic_code"
+            android:title="AcmeZone" />
+    </group>
+
+    <group
+        android:id="@+id/group_about"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_about_app"
+            android:icon="@drawable/ic_about_app"
+            android:title="关于应用" />
+
+        <item
+            android:id="@+id/item_about_author"
+            android:icon="@drawable/ic_about_author"
+            android:title="关于作者" />
+
+    </group>
+
+    <group
+        android:id="@+id/group_quit"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_quit"
+            android:title="退出应用" />
+    </group>
+</menu>

@@ -1,4 +1,4 @@
-package com.xayah.acmezone.Component
+package com.xayah.hnudiscretemathematicshelper.Component
 
 import android.content.Context
 import android.graphics.Bitmap

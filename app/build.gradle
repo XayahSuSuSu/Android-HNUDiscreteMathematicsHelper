@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation 'org.jsoup:jsoup:1.13.1'
 

@@ -4,14 +4,19 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
 import android.widget.CheckBox
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
-import com.xayah.acmezone.Component.NetImageView
+import com.xayah.hnudiscretemathematicshelper.Component.NetImageView
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 import com.xayah.hnudiscretemathematicshelper.Util.DialogUtil
@@ -43,7 +48,44 @@ class LoginActivity : AppCompatActivity() {
         //        保存本机UserAgent
         editor.putString("userAgent", WebView(this).getSettings().getUserAgentString())
         editor.apply()
+//---------------------------------------------------------------------------------------------------
+        val main_navigationView: NavigationView = findViewById(R.id.main_navigationView)
+        val main_drawer_layout: DrawerLayout = findViewById(R.id.main_drawer_layout)
+        val navigationview_head = main_navigationView.getHeaderView(0)
+        val navigationview_head_textView_version: TextView =
+            navigationview_head.findViewById(R.id.navigationview_head_textView_version)
+        navigationview_head_textView_version.text = "HNU离散数学助手 v" + DataUtil.getVersion(this)
 
+        main_navigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_website_system -> {
+                    val uri = Uri.parse("http://server.wuyou.com.cn/hnuysh/")
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
+                }
+                R.id.item_website_AcmeZone -> {
+                    val uri = Uri.parse("http://acmezone.tk/")
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
+                }
+                R.id.item_about_app -> {
+
+                }
+                R.id.item_about_author -> {
+
+                }
+                R.id.item_quit -> {
+                    finish()
+                }
+            }
+            false
+        }
+
+        val main_imageView_menu: ImageButton = findViewById(R.id.main_imageView_menu)
+        main_imageView_menu.setOnClickListener {
+            main_drawer_layout.openDrawer(main_navigationView)
+        }
+//---------------------------------------------------------------------------------------------------
 
         val checkBox_rememberPwd: CheckBox = findViewById(R.id.checkBox_rememberPwd)
         val checkBox_autoLogin: CheckBox = findViewById(R.id.checkBox_autoLogin)

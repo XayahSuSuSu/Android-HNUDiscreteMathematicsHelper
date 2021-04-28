@@ -25,6 +25,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!--            <Button-->
+            <!--                style="@style/WidgetFoundation.Button.Text"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="end"-->
+            <!--                android:text="安装"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                app:icon="@drawable/ic_install" />-->
+
+
             <TextView
                 android:id="@+id/textView_papername"
                 android:layout_width="wrap_content"
