@@ -49,14 +49,13 @@ class LoginActivity : AppCompatActivity() {
         editor.putString("userAgent", WebView(this).getSettings().getUserAgentString())
         editor.apply()
 //---------------------------------------------------------------------------------------------------
-        val main_navigationView: NavigationView = findViewById(R.id.main_navigationView)
-        val main_drawer_layout: DrawerLayout = findViewById(R.id.main_drawer_layout)
-        val navigationview_head = main_navigationView.getHeaderView(0)
+        val login_navigationView: NavigationView = findViewById(R.id.login_navigationView)
+        val login_drawer_layout: DrawerLayout = findViewById(R.id.login_drawer_layout)
+        val navigationview_head = login_navigationView.getHeaderView(0)
         val navigationview_head_textView_version: TextView =
             navigationview_head.findViewById(R.id.navigationview_head_textView_version)
         navigationview_head_textView_version.text = "HNU离散数学助手 v" + DataUtil.getVersion(this)
-
-        main_navigationView.setNavigationItemSelectedListener {
+        login_navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_website_system -> {
                     val uri = Uri.parse("http://server.wuyou.com.cn/hnuysh/")
@@ -81,9 +80,9 @@ class LoginActivity : AppCompatActivity() {
             false
         }
 
-        val main_imageView_menu: ImageButton = findViewById(R.id.main_imageView_menu)
-        main_imageView_menu.setOnClickListener {
-            main_drawer_layout.openDrawer(main_navigationView)
+        val login_imageView_menu: ImageButton = findViewById(R.id.login_imageView_menu)
+        login_imageView_menu.setOnClickListener {
+            login_drawer_layout.openDrawer(login_navigationView)
         }
 //---------------------------------------------------------------------------------------------------
 

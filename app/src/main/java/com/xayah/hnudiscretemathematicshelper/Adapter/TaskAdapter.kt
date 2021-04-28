@@ -121,16 +121,19 @@ class TaskAdapter(
         holder.cardView.setOnClickListener {
             if (!DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend)) {
                 val dialogUtil = DialogUtil(mContext)
-                dialogUtil.createPositiveButtonDialog("试卷已过期!", "好的", {})
-                val intent =
-                    Intent(mContext, TaskActivity::class.java)
-                intent.putExtra("schoolno", taskClass.schoolno)
-                intent.putExtra("zh", mZh)
-                intent.putExtra("id", taskClass.id)
-                intent.putExtra("papername", taskClass.papername)
-                intent.putExtra("userAgent", mUserAgent)
-                intent.putExtra("cookie", mCookie)
-                mContext.startActivity(intent)
+                dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {
+                    val intent =
+                        Intent(mContext, TaskActivity::class.java)
+                    intent.putExtra("schoolno", taskClass.schoolno)
+                    intent.putExtra("zh", mZh)
+                    intent.putExtra("id", taskClass.id)
+                    intent.putExtra("papername", taskClass.papername)
+                    intent.putExtra("userAgent", mUserAgent)
+                    intent.putExtra("cookie", mCookie)
+                    intent.putExtra("isOutDate", true)
+                    mContext.startActivity(intent)
+                }
+
             } else {
                 val intent =
                     Intent(mContext, TaskActivity::class.java)
@@ -140,6 +143,7 @@ class TaskAdapter(
                 intent.putExtra("papername", taskClass.papername)
                 intent.putExtra("userAgent", mUserAgent)
                 intent.putExtra("cookie", mCookie)
+                intent.putExtra("isOutDate", false)
                 mContext.startActivity(intent)
             }
         }

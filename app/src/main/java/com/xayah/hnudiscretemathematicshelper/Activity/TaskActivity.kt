@@ -35,10 +35,11 @@ class TaskActivity : AppCompatActivity() {
         val papername = intent.getStringExtra("papername")
         val userAgent = intent.getStringExtra("userAgent")
         val cookie = intent.getStringExtra("cookie")
-        val main_textView_taskName: TextView = findViewById(R.id.main_textView_taskName)
+        val isOutDate = intent.getBooleanExtra("isOutDate", true)
+        val task_textView_taskName: TextView = findViewById(R.id.task_textView_taskName)
         val cond = "schoolno='$schoolno' AND zh='$zh' AND paperplanId=$id"
         Log.d("mTAG", "init: " + cond)
-        main_textView_taskName.setText(papername)
+        task_textView_taskName.setText(papername)
         val recyclerView_certainTasks: RecyclerView = findViewById(R.id.recyclerView_certainTasks)
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView_certainTasks.setLayoutManager(layoutManager)
@@ -74,23 +75,26 @@ class TaskActivity : AppCompatActivity() {
         val floatingActionButton_upload: ExtendedFloatingActionButton =
             findViewById(R.id.floatingActionButton_upload)
         floatingActionButton_upload.setOnClickListener {
-            Thread {
-                val mIP = getIP()
-                val sqlState = modifyAnswer(mIP, certainTaskList)
-                Log.d("mTAG", "modifyAnswer: $sqlState")
-                val mReturn = commitAnswer(sqlState, userAgent!!, cookie!!)
-                runOnUiThread {
-                    dialogUtil.createPositiveButtonDialog(
-                        mReturn,
-                        "好的"
-                    ) {}
+            if (isOutDate) {
+                dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {}
+            } else {
+                Thread {
+                    val mIP = getIP()
+                    val sqlState = modifyAnswer(mIP, certainTaskList)
+                    Log.d("mTAG", "modifyAnswer: $sqlState")
+                    val mReturn = commitAnswer(sqlState, userAgent!!, cookie!!)
+                    runOnUiThread {
+                        dialogUtil.createPositiveButtonDialog(
+                            mReturn,
+                            "好的"
+                        ) {}
+                    }
+
+                }.start()
+                for (i in certainTaskList) {
+                    Log.d("mTAG", "遍历得分: " + i.scorestudnum)
                 }
-
-            }.start()
-            for (i in certainTaskList) {
-                Log.d("mTAG", "遍历得分: " + i.scorestudnum)
             }
-
         }
     }
 }

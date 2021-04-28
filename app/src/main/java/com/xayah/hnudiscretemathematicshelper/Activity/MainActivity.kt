@@ -1,15 +1,20 @@
 package com.xayah.hnudiscretemathematicshelper.Activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.xayah.hnudiscretemathematicshelper.Adapter.TaskAdapter
 import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
@@ -30,6 +35,47 @@ class MainActivity : AppCompatActivity() {
         val nestedScrollView_main: NestedScrollView = findViewById(R.id.nestedScrollView_main)
         val floatingActionButton_refresh: ExtendedFloatingActionButton =
             findViewById(R.id.floatingActionButton_refresh)
+
+
+        //---------------------------------------------------------------------------------------------------
+        val main_navigationView: NavigationView = findViewById(R.id.main_navigationView)
+        val main_drawer_layout: DrawerLayout = findViewById(R.id.main_drawer_layout)
+        val navigationview_head = main_navigationView.getHeaderView(0)
+        val navigationview_head_textView_version: TextView =
+            navigationview_head.findViewById(R.id.navigationview_head_textView_version)
+        navigationview_head_textView_version.text = "HNU离散数学助手 v" + DataUtil.getVersion(this)
+
+        main_navigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_website_system -> {
+                    val uri = Uri.parse("http://server.wuyou.com.cn/hnuysh/")
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
+                }
+                R.id.item_website_AcmeZone -> {
+                    val uri = Uri.parse("http://acmezone.tk/")
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
+                }
+                R.id.item_about_app -> {
+
+                }
+                R.id.item_about_author -> {
+
+                }
+                R.id.item_quit -> {
+                    finish()
+                }
+            }
+            false
+        }
+
+        val main_imageView_menu: ImageButton = findViewById(R.id.main_imageView_menu)
+        main_imageView_menu.setOnClickListener {
+            main_drawer_layout.openDrawer(main_navigationView)
+        }
+//---------------------------------------------------------------------------------------------------
+
 //        nestedScrollView_main.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 //
 ////            val contentView = nestedScrollView_main.getChildAt(0)
