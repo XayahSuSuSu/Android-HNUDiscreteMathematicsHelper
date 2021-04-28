@@ -146,7 +146,7 @@
                     android:textStyle="bold" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/about_author_xayah"
+                    android:id="@+id/about_author_yang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
