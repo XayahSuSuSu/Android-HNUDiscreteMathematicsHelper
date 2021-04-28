@@ -89,7 +89,7 @@ class TaskActivity : AppCompatActivity() {
                         dialogUtil.createPositiveButtonDialog(
                             mReturn,
                             "好的"
-                        ) {}
+                        ) { finish() }
                     }
 
                 }.start()

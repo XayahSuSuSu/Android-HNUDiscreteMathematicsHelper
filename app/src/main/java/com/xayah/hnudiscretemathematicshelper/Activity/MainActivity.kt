@@ -61,10 +61,19 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 R.id.item_about_author -> {
-
+                    val intent =
+                        Intent(this, AboutAuthorActivity::class.java)
+                    startActivity(intent)
                 }
                 R.id.item_quit -> {
                     finish()
+                }
+                R.id.item_logout -> {
+                    finish()
+                    val intent =
+                        Intent(this, LoginActivity::class.java)
+                    intent.putExtra("isLogOut", true)
+                    startActivity(intent)
                 }
             }
             false

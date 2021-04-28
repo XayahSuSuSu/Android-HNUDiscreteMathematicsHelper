@@ -71,7 +71,9 @@ class LoginActivity : AppCompatActivity() {
 
                 }
                 R.id.item_about_author -> {
-
+                    val intent =
+                        Intent(this, AboutAuthorActivity::class.java)
+                    startActivity(intent)
                 }
                 R.id.item_quit -> {
                     finish()
@@ -113,7 +115,8 @@ class LoginActivity : AppCompatActivity() {
                     if (prefs.getBoolean("isAutoFillCode", false)) {
                         textInputEditText_code.setText(DataUtil.getVerifyCode(verifycodeint))
                     }
-                    if (prefs.getBoolean("isAutoLogin", false)) {
+                    val isLogOut = intent.getBooleanExtra("isLogOut", false)
+                    if (prefs.getBoolean("isAutoLogin", false) && !isLogOut) {
                         Thread {
                             try {
                                 val mReturnBody = NetUtil.login(

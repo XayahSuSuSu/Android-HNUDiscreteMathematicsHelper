@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HNUDiscreteMathematicsHelper"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.TaskActivity"></activity>
+        <activity android:name=".Activity.AboutAuthorActivity"></activity>
+        <activity android:name=".Activity.TaskActivity" />
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
