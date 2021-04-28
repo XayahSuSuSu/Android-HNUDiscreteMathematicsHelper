@@ -91,6 +91,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_margin="40dp"
             android:text="刷新任务"
+            android:visibility="gone"
             app:backgroundTint="@color/white"
             app:icon="@drawable/ic_refresh" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
