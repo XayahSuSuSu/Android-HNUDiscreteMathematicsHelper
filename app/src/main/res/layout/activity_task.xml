@@ -91,7 +91,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="0"
-                                android:textColor="@color/mRed"
+                                android:textColor="@color/mGreen"
                                 android:textSize="26sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -122,7 +122,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="09:40"
-                                android:textColor="@color/black"
+                                android:textColor="@color/mRed"
                                 android:textSize="26sp"
                                 android:textStyle="bold" />
                         </LinearLayout>

@@ -71,7 +71,7 @@ class CertainTaskAdapter(
                     val mParam = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                     )
-                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
+                    if (certainTaskClass.scorestudnum != "0" && !certainTaskClass.scorestudnum.contains("-") && certainTaskClass.scorestudnum.isNotEmpty()) {
                         textView.setTextColor(
                             ContextCompat.getColor(
                                 mContext,
@@ -115,7 +115,7 @@ class CertainTaskAdapter(
                             mContext.resources.getDimension(R.dimen.mEnd).toInt(),
                             0
                         )
-                        if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
+                        if (certainTaskClass.scorestudnum != "0" && !certainTaskClass.scorestudnum.contains("-") && certainTaskClass.scorestudnum.isNotEmpty()) {
                             textView.setTextColor(
                                 ContextCompat.getColor(
                                     mContext,
@@ -160,7 +160,8 @@ class CertainTaskAdapter(
                     }
             }
         } else {
-            holder.textView_subject.text = certainTaskClass.certainTaskQuestionClass.qTitle
+            holder.textView_subject.text =
+                (position + 1).toString() + "." + certainTaskClass.certainTaskQuestionClass.qTitle
         }
 
         if (certainTaskClass.certainTaskQuestionClass.qAnswer == "1") {
@@ -180,7 +181,7 @@ class CertainTaskAdapter(
             holder.linearLayout_options.addView(radioGroup)
         }
 
-        if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
+        if (certainTaskClass.scorestudnum != "0" && !certainTaskClass.scorestudnum.contains("-") && certainTaskClass.scorestudnum.isNotEmpty()) {
             holder.cardView.setCardBackgroundColor(
                 ContextCompat.getColor(
                     mContext,
@@ -205,11 +206,11 @@ class CertainTaskAdapter(
                     val radioButton = RadioButton(mContext)
                     radioButton.id = View.generateViewId()
                     radioButton.text = "{见下图}"
-                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-")
+                    if (certainTaskClass.scorestudnum != "0" && !certainTaskClass.scorestudnum.contains("-") && certainTaskClass.scorestudnum.isNotEmpty())
                         radioButton.buttonTintList = ColorStateList.valueOf(Color.WHITE)
                     if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
                         radioButton.isChecked = true
-                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
+                    if (certainTaskClass.scorestudnum != "0" && !certainTaskClass.scorestudnum.contains("-") && certainTaskClass.scorestudnum.isNotEmpty()) {
                         radioButton.setTextColor(
                             ContextCompat.getColor(
                                 mContext,
@@ -275,11 +276,11 @@ class CertainTaskAdapter(
                 } else {
                     val checkBox = CheckBox(mContext)
                     checkBox.text = "{见下图}"
-                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-")
+                    if (certainTaskClass.scorestudnum != "0" && !certainTaskClass.scorestudnum.contains("-") && certainTaskClass.scorestudnum.isNotEmpty())
                         checkBox.buttonTintList = ColorStateList.valueOf(Color.WHITE)
                     if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
                         checkBox.isChecked = true
-                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
+                    if (certainTaskClass.scorestudnum != "0" && !certainTaskClass.scorestudnum.contains("-") && certainTaskClass.scorestudnum.isNotEmpty()) {
                         checkBox.setTextColor(
                             ContextCompat.getColor(
                                 mContext,
