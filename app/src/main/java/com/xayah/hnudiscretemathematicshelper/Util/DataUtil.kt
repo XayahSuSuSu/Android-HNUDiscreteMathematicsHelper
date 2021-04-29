@@ -195,7 +195,7 @@ class DataUtil {
             return mStr
         }
 
-        fun GetTime(): String {
+        fun getTime(): String {
             val simpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss")
             val mTime =
                 simpleDateFormat.format(Date(System.currentTimeMillis().toString().toLong()))
@@ -209,18 +209,18 @@ class DataUtil {
             for ((index, i) in mCertainTaskList.withIndex()) {
                 if (index == 0) {
                     sqlState =
-                        "update`c`studscoredetail`studans`c`" + i.studans + "`studanstext`c`" + "-" + "`scorestudnum`n`(case  when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND cast(stanardans as varchar(max))='" + i.studans + "') then scorestandard when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND RTRIM(cast(stanardans as varchar(max)))<>'" + i.studans + "') then 0 else scorestudnum  end)" + "`datestudsubmit`c`" + GetTime() + "`ipstud`c`" + mIP + "`where`1`id='" + i.id + "'"
+                        "update`c`studscoredetail`studans`c`" + i.studans + "`studanstext`c`" + "-" + "`scorestudnum`n`(case  when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND cast(stanardans as varchar(max))='" + i.studans + "') then scorestandard when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND RTRIM(cast(stanardans as varchar(max)))<>'" + i.studans + "') then 0 else scorestudnum  end)" + "`datestudsubmit`c`" + getTime() + "`ipstud`c`" + mIP + "`where`1`id='" + i.id + "'"
                 } else {
-                    sqlState += "~yshsxzyqy~update`c`studscoredetail`studans`c`" + i.studans + "`studanstext`c`" + "-" + "`scorestudnum`n`(case  when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND cast(stanardans as varchar(max))='" + i.studans + "') then scorestandard when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND RTRIM(cast(stanardans as varchar(max)))<>'" + i.studans + "') then 0 else scorestudnum  end)" + "`datestudsubmit`c`" + GetTime() + "`ipstud`c`" + mIP + "`where`1`id='" + i.id + "'"
+                    sqlState += "~yshsxzyqy~update`c`studscoredetail`studans`c`" + i.studans + "`studanstext`c`" + "-" + "`scorestudnum`n`(case  when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND cast(stanardans as varchar(max))='" + i.studans + "') then scorestandard when  ( len(rtrim(cast(stanardans as varchar(max))))>0 AND RTRIM(cast(stanardans as varchar(max)))<>'" + i.studans + "') then 0 else scorestudnum  end)" + "`datestudsubmit`c`" + getTime() + "`ipstud`c`" + mIP + "`where`1`id='" + i.id + "'"
                 }
             }
             return sqlState
         }
 
         fun isProperTime(mStartTime: String, mEndTime: String): String {
-            if (mStartTime.trim().toLong() > GetTime().trim().toLong()) {
+            if (mStartTime.trim().toLong() > getTime().trim().toLong()) {
                 return "aheadDate"
-            } else if (GetTime().trim()
+            } else if (getTime().trim()
                     .toLong() > mEndTime.trim().toLong()
             ) {
                 return "outDate"
@@ -287,6 +287,31 @@ class DataUtil {
                 e.printStackTrace()
                 "无法获取到版本号"
             }
+        }
+
+        fun getSurplusTime(mTime: String): String {
+            // Format - 15:00
+            val time = mTime.split(":").toMutableList()
+            if (time[1].toInt() != 0)
+                time[1] = (time[1].toInt() - 1).toString()
+            else if (time[1].toInt() == 0 && time[0].toInt() == 0) {
+                return "0:0"
+            } else {
+                time[0] = (time[0].toInt() - 1).toString()
+                time[1] = "59"
+            }
+            return time[0] + ":" + time[1]
+        }
+
+        fun getScore(certainTaskList: MutableList<CertainTaskClass>): String {
+            var mScore = 0
+            Log.d("mTAG", "getScore()")
+            for (i in certainTaskList) {
+                mScore += i.scorestudnum.toInt()
+                Log.d("mTAG", "i.scorestudnum: " + i.scorestudnum)
+
+            }
+            return mScore.toString()
         }
     }
 }
