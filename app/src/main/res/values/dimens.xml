@@ -2,7 +2,7 @@
 <resources>
     <dimen name="mStart">15dp</dimen>
     <dimen name="mEnd">15dp</dimen>
-    <dimen name="mTopTextView">10dp</dimen>
+    <dimen name="mTopTextView">15dp</dimen>
     <dimen name="mTextViewTextSize">18sp</dimen>
     <dimen name="mTop">10dp</dimen>
     <dimen name="mProgressBarDialogTop">70dp</dimen>

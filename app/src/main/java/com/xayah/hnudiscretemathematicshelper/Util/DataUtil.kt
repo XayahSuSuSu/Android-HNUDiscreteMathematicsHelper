@@ -230,50 +230,57 @@ class DataUtil {
         }
 
         fun getImageUrl(mQTitle: String): MutableList<String> {
-            val mQTitleTmp = mQTitle.replace("</img>", "")
-            Log.d("mTAG", "mQTitleTmp: " + mQTitleTmp)
+            // 当传进来的Url太奇怪时，使用StringIndexOutOfBoundsException处理异常
             val mUrlList = mutableListOf<String>()
-            val mUrls =
-                mQTitleTmp.substring(
-                    mQTitleTmp.indexOf("<img src="),
-                    mQTitleTmp.lastIndexOf(">") + 1
-                ).trim()
-            Log.d("mTAG", "mUrls: " + mUrls)
-            if (mUrls.trim() == mQTitleTmp) {
-                mUrlList.add("")
-                val mReturn =
-                    mUrls.replace("‘", "\"").replace("\" border=\"0\">", "")
-                        .split("<img src=\"")
-                Log.d("mTAG", "mReturn: " + mReturn)
-                for (i in mReturn) {
-                    if (!i.isEmpty())
-                        mUrlList.add(i)
-                }
-                mUrlList.add("")
-            } else {
-                val mTextTitleLeft = mQTitleTmp.substring(0, mQTitleTmp.indexOf("<img src=")).trim()
-                var mTextTitleRight = ""
-                if (mQTitleTmp.lastIndexOf(">") != mQTitleTmp.lastIndex) {
-                    mTextTitleRight =
-                        mQTitleTmp.substring(mQTitleTmp.lastIndexOf(">") + 1, mQTitleTmp.lastIndex)
-                            .trim()
-                }
+            try {
+                val mQTitleTmp = mQTitle.replace("</img>", "")
+                Log.d("mTAG", "mQTitleTmp: " + mQTitleTmp)
+                val mUrls =
+                    mQTitleTmp.substring(
+                        mQTitleTmp.indexOf("<img src="),
+                        mQTitleTmp.lastIndexOf(">") + 1
+                    ).trim()
+                Log.d("mTAG", "mUrls: " + mUrls)
+                if (mUrls.trim() == mQTitleTmp) {
+                    mUrlList.add("")
+                    val mReturn =
+                        mUrls.replace("‘", "\"").replace("\" border=\"0\">", "")
+                            .split("<img src=\"")
+                    Log.d("mTAG", "mReturn: " + mReturn)
+                    for (i in mReturn) {
+                        if (!i.isEmpty())
+                            mUrlList.add(i)
+                    }
+                    mUrlList.add("")
+                } else {
+                    val mTextTitleLeft =
+                        mQTitleTmp.substring(0, mQTitleTmp.indexOf("<img src=")).trim()
+                    var mTextTitleRight = ""
+                    if (mQTitleTmp.lastIndexOf(">") != mQTitleTmp.lastIndex) {
+                        mTextTitleRight =
+                            mQTitleTmp.substring(
+                                mQTitleTmp.lastIndexOf(">") + 1,
+                                mQTitleTmp.lastIndex
+                            )
+                                .trim()
+                    }
 
-                mUrlList.add(mTextTitleLeft)
-                Log.d("mTAG", "mTextTitleLeft: " + mTextTitleLeft)
-                Log.d("mTAG", "mTextTitleRight: " + mTextTitleRight)
-                val mReturn =
-                    mUrls.replace("‘", "\"").replace("\" border=\"0\">", "")
-                        .split("<img src=\"")
-                Log.d("mTAG", "mReturn: " + mReturn)
-                for (i in mReturn) {
-                    if (!i.isEmpty())
-                        mUrlList.add(i)
+                    mUrlList.add(mTextTitleLeft)
+                    Log.d("mTAG", "mTextTitleLeft: $mTextTitleLeft")
+                    Log.d("mTAG", "mTextTitleRight: $mTextTitleRight")
+                    val mReturn =
+                        mUrls.replace("‘", "\"").replace("\" border=\"0\">", "")
+                            .split("<img src=\"")
+                    Log.d("mTAG", "mReturn: $mReturn")
+                    for (i in mReturn) {
+                        if (!i.isEmpty())
+                            mUrlList.add(i)
+                    }
+                    mUrlList.add(mTextTitleRight)
                 }
-                mUrlList.add(mTextTitleRight)
+            } catch (e: StringIndexOutOfBoundsException) {
+                e.printStackTrace()
             }
-
-
             return mUrlList
         }
 
@@ -305,12 +312,17 @@ class DataUtil {
 
         fun getScore(certainTaskList: MutableList<CertainTaskClass>): String {
             var mScore = 0
-            Log.d("mTAG", "getScore()")
-            for (i in certainTaskList) {
-                mScore += i.scorestudnum.toInt()
-                Log.d("mTAG", "i.scorestudnum: " + i.scorestudnum)
-
+            // 当试卷到期前没有提交过时，scorestudnum值为-,用NumberFormatException处理异常
+            try {
+                Log.d("mTAG", "getScore()")
+                for (i in certainTaskList) {
+                    Log.d("mTAG", "i.scorestudnum: " + i.scorestudnum)
+                    mScore += i.scorestudnum.toInt()
+                }
+            } catch (e: NumberFormatException) {
+                e.printStackTrace()
             }
+
             return mScore.toString()
         }
     }

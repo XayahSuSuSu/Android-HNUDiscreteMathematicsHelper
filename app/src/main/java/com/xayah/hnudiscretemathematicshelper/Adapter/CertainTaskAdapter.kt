@@ -34,6 +34,7 @@ class CertainTaskAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderTask {
+        // 绑定recyclerview_certaintasks_item布局
         val itemView: View =
             LayoutInflater.from(mContext).inflate(
                 R.layout.recyclerview_certaintasks_item,
@@ -48,15 +49,10 @@ class CertainTaskAdapter(
     }
 
     class ViewHolderTask(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var linearLayout_options: LinearLayout
-        var textView_subject: TextView
-        var cardView: CardView
+        var linearLayout_options: LinearLayout = itemView.findViewById(R.id.linearLayout_options)
+        var textView_subject: TextView = itemView.findViewById(R.id.textView_subject)
+        var cardView: CardView = itemView.findViewById(R.id.cardView_item)
 
-        init {
-            linearLayout_options = itemView.findViewById(R.id.linearLayout_options)
-            textView_subject = itemView.findViewById(R.id.textView_subject)
-            cardView = itemView.findViewById(R.id.cardView_item)
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -75,12 +71,21 @@ class CertainTaskAdapter(
                     val mParam = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                     )
-                    textView.setTextColor(
-                        ContextCompat.getColor(
-                            mContext,
-                            R.color.black
+                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                mContext,
+                                R.color.white
+                            )
                         )
-                    )
+                    } else {
+                        textView.setTextColor(
+                            ContextCompat.getColor(
+                                mContext,
+                                R.color.black
+                            )
+                        )
+                    }
                     textView.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         mContext.resources.getDimension(R.dimen.mTextViewTextSize),
@@ -110,12 +115,21 @@ class CertainTaskAdapter(
                             mContext.resources.getDimension(R.dimen.mEnd).toInt(),
                             0
                         )
-                        textView.setTextColor(
-                            ContextCompat.getColor(
-                                mContext,
-                                R.color.black
+                        if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
+                            textView.setTextColor(
+                                ContextCompat.getColor(
+                                    mContext,
+                                    R.color.white
+                                )
                             )
-                        )
+                        } else {
+                            textView.setTextColor(
+                                ContextCompat.getColor(
+                                    mContext,
+                                    R.color.black
+                                )
+                            )
+                        }
                         textView.setTextSize(
                             TypedValue.COMPLEX_UNIT_PX,
                             mContext.resources.getDimension(R.dimen.mTextViewTextSize),
@@ -166,7 +180,7 @@ class CertainTaskAdapter(
             holder.linearLayout_options.addView(radioGroup)
         }
 
-        if (certainTaskClass.scorestudnum == "10") {
+        if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
             holder.cardView.setCardBackgroundColor(
                 ContextCompat.getColor(
                     mContext,
@@ -191,11 +205,11 @@ class CertainTaskAdapter(
                     val radioButton = RadioButton(mContext)
                     radioButton.id = View.generateViewId()
                     radioButton.text = "{见下图}"
-                    if (certainTaskClass.scorestudnum == "10")
+                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-")
                         radioButton.buttonTintList = ColorStateList.valueOf(Color.WHITE)
                     if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
                         radioButton.isChecked = true
-                    if (certainTaskClass.scorestudnum == "10") {
+                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
                         radioButton.setTextColor(
                             ContextCompat.getColor(
                                 mContext,
@@ -260,12 +274,12 @@ class CertainTaskAdapter(
                     }
                 } else {
                     val checkBox = CheckBox(mContext)
-                    checkBox.text = i
-                    if (certainTaskClass.scorestudnum == "10")
+                    checkBox.text = "{见下图}"
+                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-")
                         checkBox.buttonTintList = ColorStateList.valueOf(Color.WHITE)
                     if (certainTaskClass.studans.contains(DataUtil.int2Char(index)))
                         checkBox.isChecked = true
-                    if (certainTaskClass.scorestudnum == "10") {
+                    if (certainTaskClass.scorestudnum != "0" || certainTaskClass.scorestudnum != "-") {
                         checkBox.setTextColor(
                             ContextCompat.getColor(
                                 mContext,
