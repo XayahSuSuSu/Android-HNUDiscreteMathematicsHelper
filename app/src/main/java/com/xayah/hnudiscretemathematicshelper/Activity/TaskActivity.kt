@@ -98,7 +98,7 @@ class TaskActivity : AppCompatActivity() {
         val floatingActionButton_upload: ExtendedFloatingActionButton =
             findViewById(R.id.floatingActionButton_upload)
         floatingActionButton_upload.setOnClickListener {
-            if (isOutDate == "outDate") {
+            if (task_textView_timeNum.text.toString() == "已截止") {
                 dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {}
             } else if (certainTaskList[0].certainTaskQuestionClass.qAnswer.toInt() >= 10) {
                 dialogUtil.createPositiveButtonDialog("暂不支持非客观题作答!", "好的") {}
