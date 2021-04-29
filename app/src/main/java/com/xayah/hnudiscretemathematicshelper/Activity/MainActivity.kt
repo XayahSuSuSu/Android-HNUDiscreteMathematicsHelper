@@ -207,13 +207,19 @@ class MainActivity : AppCompatActivity() {
                         showContent += "更新内容：\n$content\n"
                         showContent += "是否立即更新？"
                         Looper.prepare()
-                        dialogUtil.createCustomButtonDialog(title, showContent, confirmButton, cancelButton, {
-                            val intent = Intent()
-                            intent.action = "android.intent.action.VIEW"
-                            val content_url = Uri.parse(downloadUrl)
-                            intent.data = content_url
-                            startActivity(intent)
-                        }, {})
+                        dialogUtil.createCustomButtonDialog(
+                            title,
+                            showContent,
+                            confirmButton,
+                            cancelButton,
+                            {
+                                val intent = Intent()
+                                intent.action = "android.intent.action.VIEW"
+                                val content_url = Uri.parse(downloadUrl)
+                                intent.data = content_url
+                                startActivity(intent)
+                            },
+                            {})
                         Looper.loop()
                     } catch (e: JSONException) {
                         e.printStackTrace()

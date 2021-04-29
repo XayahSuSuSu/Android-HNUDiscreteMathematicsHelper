@@ -146,8 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                 />
+                android:layout_marginRight="40dp" />
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -157,8 +156,8 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_margin="40dp"
             android:text="提交"
-            app:layout_behavior="com.xayah.hnudiscretemathematicshelper.Util.MyFabBehavior"
             app:backgroundTint="@color/white"
-            app:icon="@drawable/ic_cloud" />
+            app:icon="@drawable/ic_cloud"
+            app:layout_behavior="com.xayah.hnudiscretemathematicshelper.Util.MyFabBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
