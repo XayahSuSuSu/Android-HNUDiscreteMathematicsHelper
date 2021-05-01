@@ -67,6 +67,7 @@ class TaskActivity : AppCompatActivity() {
         recyclerView_certainTasks.setLayoutManager(layoutManager)
         recyclerView_certainTasks.overScrollMode = View.OVER_SCROLL_NEVER
         recyclerView_certainTasks.itemAnimator = DefaultItemAnimator()
+        recyclerView_certainTasks.isNestedScrollingEnabled = false
         certainTaskList = mutableListOf<CertainTaskClass>()
         Thread {
             certainTaskList = NetUtil.getCertainTask(

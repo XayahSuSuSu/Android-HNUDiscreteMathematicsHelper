@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        val nestedScrollView_main: NestedScrollView = findViewById(R.id.nestedScrollView_main)
         val floatingActionButton_refresh: ExtendedFloatingActionButton =
             findViewById(R.id.floatingActionButton_refresh)
 
@@ -93,24 +91,6 @@ class MainActivity : AppCompatActivity() {
             main_drawer_layout.openDrawer(main_navigationView)
         }
 //---------------------------------------------------------------------------------------------------
-
-//        nestedScrollView_main.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-//
-////            val contentView = nestedScrollView_main.getChildAt(0)
-////            if (scrollY + v.height == contentView.measuredHeight) {
-////                floatingActionButton_refresh.visibility = View.GONE
-////            } else {
-////                floatingActionButton_refresh.visibility = View.VISIBLE
-////            }
-//            if (scrollY > oldScrollY) {
-//                floatingActionButton_refresh.shrink()
-//            }
-//            Log.d("mTAG", "scrollY: " + scrollY)
-//            Log.d("mTAG", "oldScrollY: " + oldScrollY)
-//
-//        }
-
-
         val zh = intent.getStringExtra("zh")
         val rolename = intent.getStringExtra("rolename")
         val username = intent.getStringExtra("username")
@@ -148,6 +128,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView_tasks.setLayoutManager(layoutManager)
         recyclerView_tasks.overScrollMode = View.OVER_SCROLL_NEVER
         recyclerView_tasks.itemAnimator = DefaultItemAnimator()
+        recyclerView_tasks.isNestedScrollingEnabled = false
         Thread {
             val taskList = NetUtil.getTasks(
                 zh!!,
