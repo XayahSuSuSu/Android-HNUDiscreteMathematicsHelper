@@ -5,9 +5,10 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="dialog_background">#fff</color>
+    <color name="black">#fff</color>
+    <color name="white">#000</color>
+    <color name="dialog_background">#1b1b1b</color>
+
 
     <color name="mGreen">#4aca6d</color>
     <color name="mGreen_WeChat">#03d568</color>
@@ -17,8 +18,8 @@
     <color name="mBlue">#3385FF</color>
     <color name="mGrayDark">#636363</color>
     <color name="mGrayLight">#F6F6F6</color>
-    <color name="mGrayBackground">#f7f7f7</color>
+    <color name="mGrayBackground">#212121</color>
 
-    <color name="mtrl_textinput_default_box_stroke_color">#000</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
     <color name="mPurple">#6200ee</color>
 </resources>

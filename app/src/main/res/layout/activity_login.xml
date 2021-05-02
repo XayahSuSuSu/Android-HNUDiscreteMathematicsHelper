@@ -17,7 +17,7 @@
             android:id="@+id/login_appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white">
+            android:background="@color/white">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -110,9 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="true"
-                        android:hint="账号"
-                        app:boxStrokeColor="#6200ee"
-                        app:hintTextColor="#6200ee">
+                        android:hint="账号">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textInputEditText_uname"
@@ -139,9 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="true"
-                        android:hint="密码"
-                        app:boxStrokeColor="#6200ee"
-                        app:hintTextColor="#6200ee">
+                        android:hint="密码">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textInputEditText_pwd"
@@ -170,9 +166,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:enabled="true"
-                        android:hint="验证码"
-                        app:boxStrokeColor="#6200ee"
-                        app:hintTextColor="#6200ee">
+                        android:hint="验证码">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textInputEditText_code"
@@ -237,6 +231,8 @@
             android:layout_margin="30dp"
             android:text="登录"
             app:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            app:iconTint="@color/black"
             app:icon="@drawable/ic_login" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

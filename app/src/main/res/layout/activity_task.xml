@@ -17,7 +17,7 @@
             android:id="@+id/task_appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white">
+            android:background="@color/white">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -157,6 +157,8 @@
             android:layout_margin="40dp"
             android:text="提交"
             app:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            app:iconTint="@color/black"
             app:icon="@drawable/ic_cloud"
             app:layout_behavior="com.xayah.hnudiscretemathematicshelper.Util.MyFabBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
