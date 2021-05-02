@@ -15,4 +15,5 @@ class TaskClass {
     lateinit var dateend: String // 结束时间
     lateinit var examperoid: String // 多少分钟
     lateinit var id: String
+    lateinit var groupType: String // 分组类型
 }

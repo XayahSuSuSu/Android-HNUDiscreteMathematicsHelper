@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView_tasks.itemAnimator = DefaultItemAnimator()
         recyclerView_tasks.isNestedScrollingEnabled = false
         Thread {
-            val taskList = NetUtil.getTasks(
+            var taskList = NetUtil.getTasks(
                 zh!!,
                 "global_chnname",
                 "paperplan",
@@ -142,6 +142,7 @@ class MainActivity : AppCompatActivity() {
                 userAgent!!,
                 cookie!!
             )
+            taskList = DataUtil.sortTasks(taskList)
             runOnUiThread {
                 val mTaskAdapter = TaskAdapter(this, taskList, zh, userAgent, cookie)
                 recyclerView_tasks.adapter = mTaskAdapter

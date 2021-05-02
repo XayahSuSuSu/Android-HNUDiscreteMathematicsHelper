@@ -3,6 +3,7 @@ package com.xayah.hnudiscretemathematicshelper.Util
 import android.content.Context
 import android.util.Log
 import com.xayah.hnudiscretemathematicshelper.Class.CertainTaskClass
+import com.xayah.hnudiscretemathematicshelper.Class.TaskClass
 import org.json.JSONObject
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
@@ -324,6 +325,42 @@ class DataUtil {
             }
 
             return mScore.toString()
+        }
+
+        fun sortTasks(taskClass: MutableList<TaskClass>): MutableList<TaskClass> {
+            val aheadDateTaskClass = mutableListOf<TaskClass>()
+            val properDateTaskClass = mutableListOf<TaskClass>()
+            val outDateTaskClass = mutableListOf<TaskClass>()
+            for (i in taskClass) {
+                if (i.groupType == "aheadDate") {
+                    aheadDateTaskClass.add(i)
+                } else if (i.groupType == "properDate") {
+                    properDateTaskClass.add(i)
+                } else {
+                    outDateTaskClass.add(i)
+                }
+            }
+            val mTaskClass = mutableListOf<TaskClass>()
+            for (i in aheadDateTaskClass) {
+                mTaskClass.add(i)
+            }
+            for (i in properDateTaskClass) {
+                mTaskClass.add(i)
+            }
+            for (i in outDateTaskClass) {
+                mTaskClass.add(i)
+            }
+            return mTaskClass
+        }
+
+        fun isTheFirstTask(index: Int, taskClassList: MutableList<TaskClass>): Boolean {
+            if (index == 0) {
+                return true
+            } else {
+                if (taskClassList[index].groupType != taskClassList[index - 1].groupType)
+                    return true
+            }
+            return false
         }
     }
 }

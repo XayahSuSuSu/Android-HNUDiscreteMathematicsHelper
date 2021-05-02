@@ -3,10 +3,14 @@ package com.xayah.hnudiscretemathematicshelper.Adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.text.TextUtils
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -59,6 +63,7 @@ class TaskAdapter(
         var textView_date: TextView
         var textView_time: TextView
         var cardView: CardView
+        var linearLayout_tasks: LinearLayout
 
         init {
             textView_papername = itemView.findViewById(R.id.textView_papername)
@@ -66,6 +71,7 @@ class TaskAdapter(
             textView_date = itemView.findViewById(R.id.textView_date)
             textView_time = itemView.findViewById(R.id.textView_time)
             cardView = itemView.findViewById(R.id.cardView_item)
+            linearLayout_tasks = itemView.findViewById(R.id.linearLayout_tasks)
         }
     }
 
@@ -81,20 +87,121 @@ class TaskAdapter(
         holder.textView_time.text =
             datebeginJSONObject.getString("time") + " - " + dateendJSONObject.getString("time")
 
-        if (DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend) != "properDate") {
-            holder.textView_examperoid.setTextColor(
-                ContextCompat.getColor(
-                    mContext,
-                    R.color.mRed
+        when {
+            DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend) == "aheadDate" -> {
+                if (DataUtil.isTheFirstTask(position, mTaskList)) {
+                    val textView = TextView(mContext)
+                    textView.text = "即将开放"
+                    textView.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        mContext.resources.getDimension(R.dimen.mTextViewTextSizeTaskGroup),
+                    )
+                    textView.setTextColor(
+                        ContextCompat.getColor(
+                            mContext,
+                            R.color.mBlue
+                        )
+                    )
+                    textView.setTypeface(
+                        textView.typeface,
+                        Typeface.BOLD
+                    )
+                    val mParam = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    mParam.gravity = Gravity.CENTER
+                    mParam.setMargins(
+                        0,
+                        0,
+                        0,
+                        mContext.resources.getDimension(R.dimen.mTaskGroupBottom).toInt()
+                    )
+                    textView.layoutParams = mParam
+                    holder.linearLayout_tasks.addView(textView, 0)
+                }
+                holder.textView_examperoid.setTextColor(
+                    ContextCompat.getColor(
+                        mContext,
+                        R.color.mBlue
+                    )
                 )
-            )
-        } else {
-            holder.textView_examperoid.setTextColor(
-                ContextCompat.getColor(
-                    mContext,
-                    R.color.mGreen
+            }
+            DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend) == "properDate" -> {
+                if (DataUtil.isTheFirstTask(position, mTaskList)) {
+                    val textView = TextView(mContext)
+                    textView.text = "进行中"
+                    textView.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        mContext.resources.getDimension(R.dimen.mTextViewTextSizeTaskGroup),
+                    )
+                    textView.setTextColor(
+                        ContextCompat.getColor(
+                            mContext,
+                            R.color.mGreen
+                        )
+                    )
+                    textView.setTypeface(
+                        textView.typeface,
+                        Typeface.BOLD
+                    )
+                    val mParam = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    mParam.gravity = Gravity.CENTER
+                    mParam.setMargins(
+                        0,
+                        0,
+                        0,
+                        mContext.resources.getDimension(R.dimen.mTaskGroupBottom).toInt()
+                    )
+                    textView.layoutParams = mParam
+                    holder.linearLayout_tasks.addView(textView, 0)
+                }
+                holder.textView_examperoid.setTextColor(
+                    ContextCompat.getColor(
+                        mContext,
+                        R.color.mGreen
+                    )
                 )
-            )
+            }
+            else -> {
+                if (DataUtil.isTheFirstTask(position, mTaskList)) {
+                    val textView = TextView(mContext)
+                    textView.text = "已过期"
+                    textView.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        mContext.resources.getDimension(R.dimen.mTextViewTextSizeTaskGroup),
+                    )
+                    textView.setTextColor(
+                        ContextCompat.getColor(
+                            mContext,
+                            R.color.mRed
+                        )
+                    )
+                    textView.setTypeface(
+                        textView.typeface,
+                        Typeface.BOLD
+                    )
+                    val mParam = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    mParam.gravity = Gravity.CENTER
+                    mParam.setMargins(
+                        0,
+                        0,
+                        0,
+                        mContext.resources.getDimension(R.dimen.mTaskGroupBottom).toInt()
+                    )
+                    textView.layoutParams = mParam
+                    holder.linearLayout_tasks.addView(textView, 0)
+                }
+                holder.textView_examperoid.setTextColor(
+                    ContextCompat.getColor(
+                        mContext,
+                        R.color.mRed
+                    )
+                )
+            }
         }
 
         holder.textView_papername.setEllipsize(TextUtils.TruncateAt.MARQUEE)

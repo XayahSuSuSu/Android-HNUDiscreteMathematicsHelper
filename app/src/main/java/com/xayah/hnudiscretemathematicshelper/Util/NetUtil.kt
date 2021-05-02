@@ -220,6 +220,7 @@ class NetUtil {
                         taskClass.dateend = dataArr[i * nCol.toInt() + 13]
                         taskClass.examperoid = dataArr[i * nCol.toInt() + 14]
                         taskClass.id = dataArr[i * nCol.toInt() + 15]
+                        taskClass.groupType = DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend)
                         taskList.add(taskClass)
                         Log.d("mTAG", "getTasks: " + taskClass.papername)
                     }

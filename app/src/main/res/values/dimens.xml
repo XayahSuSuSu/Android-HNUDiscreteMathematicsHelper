@@ -4,7 +4,9 @@
     <dimen name="mEnd">15dp</dimen>
     <dimen name="mTopTextView">15dp</dimen>
     <dimen name="mTextViewTextSize">18sp</dimen>
+    <dimen name="mTextViewTextSizeTaskGroup">24sp</dimen>
     <dimen name="mTop">10dp</dimen>
     <dimen name="mProgressBarDialogTop">70dp</dimen>
     <dimen name="mProgressBarDialogBottom">40dp</dimen>
+    <dimen name="mTaskGroupBottom">20dp</dimen>
 </resources>
