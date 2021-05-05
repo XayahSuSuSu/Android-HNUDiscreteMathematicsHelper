@@ -19,8 +19,8 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/item_about_app"
-            android:icon="@drawable/ic_about_app"
-            android:title="关于应用" />
+            android:icon="@drawable/ic_github"
+            android:title="Github" />
 
         <item
             android:id="@+id/item_about_author"

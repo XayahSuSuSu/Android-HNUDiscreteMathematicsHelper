@@ -90,7 +90,10 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 R.id.item_about_app -> {
-
+                    val uri =
+                        Uri.parse("https://github.com/XayahSuSuSu/Android-HNUDiscreteMathematicsHelper")
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
                 }
                 R.id.item_about_author -> {
                     val intent =
