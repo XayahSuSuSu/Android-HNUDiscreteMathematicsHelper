@@ -54,8 +54,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         bindView() // 绑定组件
-        setListener() // 设置监听器
         init() // 初始化
+        setListener() // 设置监听器
     }
 
     private fun bindView() {

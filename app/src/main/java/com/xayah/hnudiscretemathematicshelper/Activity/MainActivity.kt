@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bindView() // 绑定组件
-        setListener() // 设置监听器
         init() // 初始化
         checkVersion() // 自动获取更新
+        setListener() // 设置监听器
     }
 
     private fun bindView() {

@@ -49,9 +49,9 @@ class TaskActivity : AppCompatActivity() {
         // 初始化全局Context
         mContext = this
         bindView() // 绑定组件
-        setListener() // 设置监听器
         init() // 初始化
         updateSurplusTime() // 刷新剩余时间
+        setListener() // 设置监听器
     }
 
     private fun bindView() {
