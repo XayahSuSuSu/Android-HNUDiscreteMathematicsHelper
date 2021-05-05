@@ -65,32 +65,36 @@ class TaskActivity : AppCompatActivity() {
     private fun setListener() {
         // 提交事件
         floatingActionButton_upload.setOnClickListener {
-            when {
-                task_textView_timeNum.text.toString() == "已截止" -> {
-                    dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {}
-                }
-                certainTaskList[0].certainTaskQuestionClass.qAnswer.toInt() >= 10 -> {
-                    dialogUtil.createPositiveButtonDialog("暂不支持非客观题作答!", "好的") {}
-                }
-                else -> {
-                    Thread {
-                        val mIP = getIP()
-                        val sqlState = modifyAnswer(mIP, certainTaskList)
-                        Log.d("mTAG", "modifyAnswer: $sqlState")
-                        val mReturn = commitAnswer(sqlState, userAgent, cookie)
-                        runOnUiThread {
-                            dialogUtil.createPositiveButtonDialog(
-                                mReturn,
-                                "好的"
-                            ) { finish() }
-                        }
-
-                    }.start()
-
-                }
-            }
+            floatingActionButton_uploadOnClickEvent()
         }
     } // 设置监听器
+
+    private fun floatingActionButton_uploadOnClickEvent() {
+        when {
+            task_textView_timeNum.text.toString() == "已截止" -> {
+                dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {}
+            }
+            certainTaskList[0].certainTaskQuestionClass.qAnswer.toInt() >= 10 -> {
+                dialogUtil.createPositiveButtonDialog("暂不支持非客观题作答!", "好的") {}
+            }
+            else -> {
+                Thread {
+                    val mIP = getIP()
+                    val sqlState = modifyAnswer(mIP, certainTaskList)
+                    Log.d("mTAG", "modifyAnswer: $sqlState")
+                    val mReturn = commitAnswer(sqlState, userAgent, cookie)
+                    runOnUiThread {
+                        dialogUtil.createPositiveButtonDialog(
+                            mReturn,
+                            "好的"
+                        ) { finish() }
+                    }
+
+                }.start()
+
+            }
+        }
+    }
 
     private fun init() {
         // 获取从MainActivity的intent传入的数据
@@ -159,9 +163,10 @@ class TaskActivity : AppCompatActivity() {
 
             var timeSurplus = ""
             val mTimeCounterRunnable: Runnable = object : Runnable {
-                override fun run() { //轮询
+                override fun run() { // 轮询
                     if (timeSurplus == "0:0") {
                         timeSurplus = "已截止"
+                        floatingActionButton_uploadOnClickEvent()
                         task_textView_timeNum.setTextColor(
                             ContextCompat.getColor(
                                 mContext,
