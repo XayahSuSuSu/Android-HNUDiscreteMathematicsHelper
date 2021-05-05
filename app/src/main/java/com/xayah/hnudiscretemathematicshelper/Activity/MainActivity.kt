@@ -29,29 +29,42 @@ import org.json.JSONObject
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    // -------------------Component-------------------
+    lateinit var floatingActionButton_refresh: ExtendedFloatingActionButton
+    lateinit var main_navigationView: NavigationView
+    lateinit var main_drawer_layout: DrawerLayout
+    lateinit var navigationview_head_textView_version: TextView
+    lateinit var main_imageView_menu: ImageButton
+    lateinit var main_textView_name: TextView
+    lateinit var recyclerView_tasks: RecyclerView
+
+    // -------------------Utils-------------------
     private val dialogUtil = DialogUtil(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        init()
-        checkVersion()
-//        dialogUtil.createProgressDialog()
+        bindView() // 绑定组件
+        setListener() // 设置监听器
+        init() // 初始化
+        checkVersion() // 自动获取更新
     }
 
-    private fun init() {
-        val floatingActionButton_refresh: ExtendedFloatingActionButton =
+    private fun bindView() {
+        floatingActionButton_refresh =
             findViewById(R.id.floatingActionButton_refresh)
-
-
-        //---------------------------------------------------------------------------------------------------
-        val main_navigationView: NavigationView = findViewById(R.id.main_navigationView)
-        val main_drawer_layout: DrawerLayout = findViewById(R.id.main_drawer_layout)
+        main_navigationView = findViewById(R.id.main_navigationView)
+        main_drawer_layout = findViewById(R.id.main_drawer_layout)
         val navigationview_head = main_navigationView.getHeaderView(0)
-        val navigationview_head_textView_version: TextView =
+        navigationview_head_textView_version =
             navigationview_head.findViewById(R.id.navigationview_head_textView_version)
-        navigationview_head_textView_version.text = "HNU离散数学助手 v" + DataUtil.getVersion(this)
+        main_imageView_menu = findViewById(R.id.main_imageView_menu)
+        main_textView_name = findViewById(R.id.main_textView_name)
+        recyclerView_tasks = findViewById(R.id.recyclerView_tasks)
+    } // 绑定组件
 
+    private fun setListener() {
+        // 侧滑栏子项单击事件
         main_navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_website_system -> {
@@ -85,12 +98,16 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
-
-        val main_imageView_menu: ImageButton = findViewById(R.id.main_imageView_menu)
+        // 左上角菜单按钮单击事件
         main_imageView_menu.setOnClickListener {
             main_drawer_layout.openDrawer(main_navigationView)
         }
-//---------------------------------------------------------------------------------------------------
+    } // 设置监听器
+
+    private fun init() {
+        // 侧滑栏版本获取
+        navigationview_head_textView_version.text = "HNU离散数学助手 v" + DataUtil.getVersion(this)
+        // 获取从LoginActivity的intent传入的数据
         val zh = intent.getStringExtra("zh")
         val rolename = intent.getStringExtra("rolename")
         val username = intent.getStringExtra("username")
@@ -118,17 +135,17 @@ class MainActivity : AppCompatActivity() {
                 cond = " (not (studvisible is null)) and studvisible=1"
             }
         }
-
         Log.d("mTAG", "init: " + DataUtil.encodeURI(DataUtil.encodeURI(cond)))
+        // 获取UserAgent和cookie
         val userAgent = intent.getStringExtra("userAgent")
         val cookie = intent.getStringExtra("cookie")
-        val main_textView_name: TextView = findViewById(R.id.main_textView_name)
-        val recyclerView_tasks: RecyclerView = findViewById(R.id.recyclerView_tasks)
+        // 初始化recyclerView
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView_tasks.setLayoutManager(layoutManager)
         recyclerView_tasks.overScrollMode = View.OVER_SCROLL_NEVER
         recyclerView_tasks.itemAnimator = DefaultItemAnimator()
         recyclerView_tasks.isNestedScrollingEnabled = false
+        // 获取任务信息
         Thread {
             var taskList = NetUtil.getTasks(
                 zh!!,
@@ -148,11 +165,11 @@ class MainActivity : AppCompatActivity() {
                 recyclerView_tasks.adapter = mTaskAdapter
             }
         }.start()
-        main_textView_name.setText(username)
-    }
+        // 展示账号信息
+        main_textView_name.text = username
+    } // 初始化
 
-    //自动获取更新
-    fun checkVersion() {
+    private fun checkVersion() {
         Thread {
             val mVersion: String = DataUtil.getVersion(this)!!
             val getTbsUrl =
@@ -209,5 +226,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.start()
-    }
+    } // 自动获取更新
 }

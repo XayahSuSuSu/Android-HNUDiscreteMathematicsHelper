@@ -34,7 +34,7 @@ class DialogUtil(var mContext: Context) {
             builder.window!!.windowManager.getDefaultDisplay().getWidth() - 200
         }
         builder.window!!.attributes = params
-    }
+    } // 利用高阶函数创建普通对话框
 
     fun createProgressDialog(
     ) {
@@ -62,7 +62,7 @@ class DialogUtil(var mContext: Context) {
             builder.window!!.windowManager.getDefaultDisplay().getWidth() - 200
         }
         builder.window!!.attributes = params
-    }
+    } // 创建带进度条对话框
 
     fun createCustomButtonDialog(
         title: String,
@@ -93,7 +93,7 @@ class DialogUtil(var mContext: Context) {
             builder.window!!.windowManager.getDefaultDisplay().getWidth() - 200
         }
         builder.window!!.attributes = params
-    }
+    } // 利用高阶函数创建自定义对话框
 
     fun createPositiveButtonDialog(
         message: String,
@@ -118,5 +118,5 @@ class DialogUtil(var mContext: Context) {
             builder.window!!.windowManager.getDefaultDisplay().getWidth() - 200
         }
         builder.window!!.attributes = params
-    }
+    } // 利用高阶函数创建单确定按钮对话框
 }

@@ -14,7 +14,7 @@ class DataUtil {
         fun encodeURI(mStr: String): String {
             val mReturn = URLEncoder.encode(mStr, "UTF-8")
             return mReturn
-        }
+        } // URI编码
 
         fun parseTime(mTimeStr: String): JSONObject {
             val mJSONObject = JSONObject()
@@ -33,7 +33,7 @@ class DataUtil {
             mJSONObject.put("date", date)
             mJSONObject.put("time", time)
             return mJSONObject
-        }
+        } // 解析时间
 
         fun getVerifyCode(verifycodeint: String): String {
             var mReturn = ""
@@ -160,15 +160,15 @@ class DataUtil {
                 }
             }
             return mReturn
-        }
+        } // 服务器上固定40个验证码图片，没有必要接入OCR，直接判断就可以了
 
         fun int2Char(mInt: Int): Char {
             return (mInt + 65).toChar()
-        }
+        } // 索引转选项标号
 
         fun char2Int(mChar: Char): Int {
             return mChar.toInt() - 65
-        }
+        } // 选项标号转索引
 
         fun addAnswer(mChar: Char, mStr: String): String {
             if (!mStr.contains(mChar)) {
@@ -185,7 +185,7 @@ class DataUtil {
                 return mReturn
             }
             return mStr
-        }
+        } // 从答案字符串中按顺序添加答案
 
         fun deleteAnswer(mChar: Char, mStr: String): String {
             val mReturn: String
@@ -194,7 +194,7 @@ class DataUtil {
                 return mReturn
             }
             return mStr
-        }
+        } // 从答案字符串中按顺序删除答案
 
         fun getTime(): String {
             val simpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss")
@@ -202,7 +202,7 @@ class DataUtil {
                 simpleDateFormat.format(Date(System.currentTimeMillis().toString().toLong()))
             Log.d("mTAG", "mTime: " + mTime)
             return mTime
-        }
+        } // 获取当前时间
 
         fun modifyAnswer(mIP: String, mCertainTaskList: MutableList<CertainTaskClass>): String {
             var sqlState = ""
@@ -216,7 +216,7 @@ class DataUtil {
                 }
             }
             return sqlState
-        }
+        } // 格式化答案提交表单
 
         fun isProperTime(mStartTime: String, mEndTime: String): String {
             if (mStartTime.trim().toLong() > getTime().trim().toLong()) {
@@ -228,7 +228,7 @@ class DataUtil {
             } else {
                 return "properDate"
             }
-        }
+        } // 判断时间
 
         fun getImageUrl(mQTitle: String): MutableList<String> {
             // 当传进来的Url太奇怪时，使用StringIndexOutOfBoundsException处理异常
@@ -283,7 +283,7 @@ class DataUtil {
                 e.printStackTrace()
             }
             return mUrlList
-        }
+        } // 解析图片链接
 
         fun getVersion(mContext: Context): String? {
             return try {
@@ -295,7 +295,7 @@ class DataUtil {
                 e.printStackTrace()
                 "无法获取到版本号"
             }
-        }
+        } // 获取当前版本号
 
         fun getSurplusTime(mTime: String): String {
             // Format - 15:00
@@ -309,7 +309,7 @@ class DataUtil {
                 time[1] = "59"
             }
             return time[0] + ":" + time[1]
-        }
+        } // 计算剩余时间
 
         fun getScore(certainTaskList: MutableList<CertainTaskClass>): String {
             var mScore = 0
@@ -325,7 +325,7 @@ class DataUtil {
             }
 
             return mScore.toString()
-        }
+        } // 计算分数
 
         fun sortTasks(taskClass: MutableList<TaskClass>): MutableList<TaskClass> {
             val aheadDateTaskClass = mutableListOf<TaskClass>()
@@ -351,7 +351,7 @@ class DataUtil {
                 mTaskClass.add(i)
             }
             return mTaskClass
-        }
+        } // 按试卷状态重新排序
 
         fun isTheFirstTask(index: Int, taskClassList: MutableList<TaskClass>): Boolean {
             if (index == 0) {
@@ -361,6 +361,6 @@ class DataUtil {
                     return true
             }
             return false
-        }
+        } // 判断是否为该状态试卷的第一个任务，以添加分类标签
     }
 }

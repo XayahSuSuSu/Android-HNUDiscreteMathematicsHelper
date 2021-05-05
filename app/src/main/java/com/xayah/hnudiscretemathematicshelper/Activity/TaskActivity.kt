@@ -26,8 +26,19 @@ import com.xayah.hnudiscretemathematicshelper.Util.NetUtil.Companion.getIP
 
 
 class TaskActivity : AppCompatActivity() {
-    val dialogUtil = DialogUtil(this)
+    // -------------------Component-------------------
     lateinit var task_textView_timeNum: TextView
+    lateinit var task_textView_scoreNum: TextView
+    lateinit var task_textView_taskName: TextView
+    lateinit var recyclerView_certainTasks: RecyclerView
+    lateinit var floatingActionButton_upload: ExtendedFloatingActionButton
+
+    // -------------------Var-------------------
+    lateinit var userAgent: String
+    lateinit var cookie: String
+    // -------------------Utils-------------------
+
+    val dialogUtil = DialogUtil(this)
     lateinit var mContext: Context
     lateinit var certainTaskList: MutableList<CertainTaskClass>
     lateinit var examperoid: String
@@ -35,59 +46,94 @@ class TaskActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
+        // 初始化全局Context
         mContext = this
-        init()
-        updateSurplusTime()
+        bindView() // 绑定组件
+        setListener() // 设置监听器
+        init() // 初始化
+        updateSurplusTime() // 刷新剩余时间
     }
 
+    private fun bindView() {
+        task_textView_timeNum = findViewById(R.id.task_textView_timeNum)
+        task_textView_scoreNum = findViewById(R.id.task_textView_scoreNum)
+        task_textView_taskName = findViewById(R.id.task_textView_taskName)
+        recyclerView_certainTasks = findViewById(R.id.recyclerView_certainTasks)
+        floatingActionButton_upload = findViewById(R.id.floatingActionButton_upload)
+    } // 绑定组件
+
+    private fun setListener() {
+        // 提交事件
+        floatingActionButton_upload.setOnClickListener {
+            when {
+                task_textView_timeNum.text.toString() == "已截止" -> {
+                    dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {}
+                }
+                certainTaskList[0].certainTaskQuestionClass.qAnswer.toInt() >= 10 -> {
+                    dialogUtil.createPositiveButtonDialog("暂不支持非客观题作答!", "好的") {}
+                }
+                else -> {
+                    Thread {
+                        val mIP = getIP()
+                        val sqlState = modifyAnswer(mIP, certainTaskList)
+                        Log.d("mTAG", "modifyAnswer: $sqlState")
+                        val mReturn = commitAnswer(sqlState, userAgent, cookie)
+                        runOnUiThread {
+                            dialogUtil.createPositiveButtonDialog(
+                                mReturn,
+                                "好的"
+                            ) { finish() }
+                        }
+
+                    }.start()
+
+                }
+            }
+        }
+    } // 设置监听器
 
     private fun init() {
-        task_textView_timeNum = findViewById(R.id.task_textView_timeNum)
-        val task_textView_scoreNum: TextView = findViewById(R.id.task_textView_scoreNum)
+        // 获取从MainActivity的intent传入的数据
         val schoolno = intent.getStringExtra("schoolno")
         val zh = intent.getStringExtra("zh")
         val id = intent.getStringExtra("id")
         val papername = intent.getStringExtra("papername")
         examperoid = intent.getStringExtra("examperoid").toString()
-        val userAgent = intent.getStringExtra("userAgent")
-        val cookie = intent.getStringExtra("cookie")
+        userAgent = intent.getStringExtra("userAgent").toString()
+        cookie = intent.getStringExtra("cookie").toString()
         isOutDate = intent.getStringExtra("isOutDate").toString()
-        val task_textView_taskName: TextView = findViewById(R.id.task_textView_taskName)
         val cond = "schoolno='$schoolno' AND zh='$zh' AND paperplanId=$id"
-        Log.d("mTAG", "init: " + cond)
+        Log.d("mTAG", "init: $cond")
+        // 展示账号信息
         task_textView_taskName.text = papername
+        // 设置跑马灯效果
         task_textView_taskName.setEllipsize(TextUtils.TruncateAt.MARQUEE)
         task_textView_taskName.setSingleLine(true)
         task_textView_taskName.setSelected(true)
         task_textView_taskName.setFocusable(true)
         task_textView_taskName.setFocusableInTouchMode(true)
-
-        val recyclerView_certainTasks: RecyclerView = findViewById(R.id.recyclerView_certainTasks)
+        // 初始化recyclerView
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView_certainTasks.setLayoutManager(layoutManager)
         recyclerView_certainTasks.overScrollMode = View.OVER_SCROLL_NEVER
         recyclerView_certainTasks.itemAnimator = DefaultItemAnimator()
         recyclerView_certainTasks.isNestedScrollingEnabled = false
-        certainTaskList = mutableListOf<CertainTaskClass>()
+        certainTaskList = mutableListOf()
+        // 获取具体任务信息
         Thread {
             certainTaskList = NetUtil.getCertainTask(
                 "studscoredetail",
                 "knowpoint,tkno,studans,scorestudnum,teachauditmsg,teachauditmsgqa,studanstext,studreply,datebegin,dateend,testtopic,id",
                 cond,
                 "tkno",
-                userAgent!!,
-                cookie!!,
+                userAgent,
+                cookie,
             )
             task_textView_scoreNum.setText(DataUtil.getScore(certainTaskList))
             for (i in certainTaskList) {
                 Log.d("mTAG", "遍历答案数组: " + i.certainTaskQuestionClass.qOption)
                 if (i.certainTaskQuestionClass.qTitle.contains("<img src=")) {
                     DataUtil.getImageUrl(i.certainTaskQuestionClass.qTitle)
-//                    val dialogUtil = DialogUtil(this)
-//                    runOnUiThread {
-//                        dialogUtil.createPositiveButtonDialog("暂不支持客观题!", "好的", {finish()})
-//                    }
-//                    break
                 }
             }
             runOnUiThread {
@@ -95,33 +141,7 @@ class TaskActivity : AppCompatActivity() {
                 recyclerView_certainTasks.adapter = mCertainTaskAdapter
             }
         }.start()
-
-        val floatingActionButton_upload: ExtendedFloatingActionButton =
-            findViewById(R.id.floatingActionButton_upload)
-        floatingActionButton_upload.setOnClickListener {
-            if (task_textView_timeNum.text.toString() == "已截止") {
-                dialogUtil.createPositiveButtonDialog("试卷已经截止,仅可查看试卷!", "好的") {}
-            } else if (certainTaskList[0].certainTaskQuestionClass.qAnswer.toInt() >= 10) {
-                dialogUtil.createPositiveButtonDialog("暂不支持非客观题作答!", "好的") {}
-            } else {
-                Thread {
-                    val mIP = getIP()
-                    val sqlState = modifyAnswer(mIP, certainTaskList)
-                    Log.d("mTAG", "modifyAnswer: $sqlState")
-                    val mReturn = commitAnswer(sqlState, userAgent!!, cookie!!)
-                    runOnUiThread {
-                        dialogUtil.createPositiveButtonDialog(
-                            mReturn,
-                            "好的"
-                        ) { finish() }
-                    }
-
-                }.start()
-
-            }
-        }
-
-    }
+    } // 初始化
 
     private fun updateSurplusTime() {
         val mHandler = Handler(Looper.getMainLooper())
@@ -162,6 +182,6 @@ class TaskActivity : AppCompatActivity() {
             mHandler.postDelayed(mTimeCounterRunnable, 1 * 1000)
         }
 
-    }
+    } // 刷新剩余时间
 
 }

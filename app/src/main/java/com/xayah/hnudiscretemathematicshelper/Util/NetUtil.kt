@@ -62,7 +62,7 @@ class NetUtil {
                 e.printStackTrace()
             }
             return returnBody
-        }// get获取schoolnodeptno
+        } // get获取schoolnodeptno
 
         fun getImage(userAgent: String): JSONObject {
             val returnJSON = JSONObject()
@@ -108,7 +108,7 @@ class NetUtil {
                 e.printStackTrace()
             }
             return returnJSON
-        }// post获取验证码地址
+        } // post获取验证码地址
 
         fun login(
             account: String,
@@ -158,7 +158,7 @@ class NetUtil {
                 e.printStackTrace()
             }
             return returnBody
-        }// post登录
+        } // post登录
 
         fun getTasks(
             zh: String,
@@ -220,7 +220,8 @@ class NetUtil {
                         taskClass.dateend = dataArr[i * nCol.toInt() + 13]
                         taskClass.examperoid = dataArr[i * nCol.toInt() + 14]
                         taskClass.id = dataArr[i * nCol.toInt() + 15]
-                        taskClass.groupType = DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend)
+                        taskClass.groupType =
+                            DataUtil.isProperTime(taskClass.datebegin, taskClass.dateend)
                         taskList.add(taskClass)
                         Log.d("mTAG", "getTasks: " + taskClass.papername)
                     }
@@ -229,7 +230,7 @@ class NetUtil {
                 e.printStackTrace()
             }
             return taskList
-        }// post获取任务
+        } // post获取任务
 
         fun getCertainTask(
             tableName: String,
@@ -305,7 +306,7 @@ class NetUtil {
                 e.printStackTrace()
             }
             return certainTaskList
-        }// post获取特定任务
+        } // post获取特定任务
 
         fun getIP(): String {
             var returnBody = "none"
@@ -326,7 +327,7 @@ class NetUtil {
                 e.printStackTrace()
             }
             return returnBody
-        }// get获取IP地址
+        } // get获取IP地址
 
 
         fun commitAnswer(
@@ -357,6 +358,6 @@ class NetUtil {
                 e.printStackTrace()
             }
             return mResponseBody
-        }// post提交答案
+        } // post提交答案
     }
 }
