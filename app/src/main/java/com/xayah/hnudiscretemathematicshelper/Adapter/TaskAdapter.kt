@@ -61,6 +61,7 @@ class TaskAdapter(
         var textView_papername: TextView
         var textView_examperoid: TextView
         var textView_date: TextView
+        var textView_classname: TextView
         var textView_time: TextView
         var cardView: CardView
         var linearLayout_tasks: LinearLayout
@@ -69,6 +70,7 @@ class TaskAdapter(
             textView_papername = itemView.findViewById(R.id.textView_papername)
             textView_examperoid = itemView.findViewById(R.id.textView_examperoid)
             textView_date = itemView.findViewById(R.id.textView_date)
+            textView_classname = itemView.findViewById(R.id.textView_classname)
             textView_time = itemView.findViewById(R.id.textView_time)
             cardView = itemView.findViewById(R.id.cardView_item)
             linearLayout_tasks = itemView.findViewById(R.id.linearLayout_tasks)
@@ -84,6 +86,7 @@ class TaskAdapter(
         val dateendJSONObject = DataUtil.parseTime(taskClass.dateend)
         holder.textView_date.text =
             datebeginJSONObject.getString("date") + " - " + dateendJSONObject.getString("date")
+        holder.textView_classname.text = taskClass.classname
         holder.textView_time.text =
             datebeginJSONObject.getString("time") + " - " + dateendJSONObject.getString("time")
 
@@ -219,6 +222,11 @@ class TaskAdapter(
         holder.textView_date.setSelected(true)
         holder.textView_date.setFocusable(true)
         holder.textView_date.setFocusableInTouchMode(true)
+        holder.textView_classname.setEllipsize(TextUtils.TruncateAt.MARQUEE)
+        holder.textView_classname.setSingleLine(true)
+        holder.textView_classname.setSelected(true)
+        holder.textView_classname.setFocusable(true)
+        holder.textView_classname.setFocusableInTouchMode(true)
         holder.textView_time.setEllipsize(TextUtils.TruncateAt.MARQUEE)
         holder.textView_time.setSingleLine(true)
         holder.textView_time.setSelected(true)

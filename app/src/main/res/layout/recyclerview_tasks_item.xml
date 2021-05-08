@@ -41,20 +41,43 @@
                 <!--                app:icon="@drawable/ic_install" />-->
 
 
-                <TextView
-                    android:id="@+id/textView_papername"
-                    android:layout_width="wrap_content"
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_marginTop="15dp"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:singleLine="true"
-                    android:text="第六周2B"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/textView_papername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:singleLine="true"
+                        android:text="第六周2B"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/textView_classname"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:textSize="12sp"
+                        android:focusableInTouchMode="true"
+                        android:singleLine="true"
+                        android:text="人工智能2001-3"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView_date"
@@ -68,6 +91,7 @@
                     android:singleLine="true"
                     android:text="2021.04.08 - 2021.04.08"
                     android:textColor="@color/black" />
+
 
                 <TextView
                     android:id="@+id/textView_examperoid"
