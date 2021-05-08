@@ -133,6 +133,12 @@ class LoginActivity : AppCompatActivity() {
         }
         // 登录事件
         floatingActionButton_login.setOnClickListener {
+            loginEvent() // 登录事件
+        }
+    } // 设置监听器
+
+    private fun loginEvent() {
+        dialogUtil.createProgressDialog {
             Thread {
                 try {
                     val mReturnBody = NetUtil.login(
@@ -147,14 +153,17 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("mTAG", "init: " + mReturnBody)
                     if (mReturnBody.contains("密码错")) {
                         runOnUiThread {
+                            it.dismiss()
                             dialogUtil.createPositiveButtonDialog("密码错误!", "好的", {})
                         }
                     } else if (mReturnBody.contains("不存在")) {
                         runOnUiThread {
+                            it.dismiss()
                             dialogUtil.createPositiveButtonDialog("账号不存在!", "好的", {})
                         }
                     } else if (mReturnBody.contains("校验码不对")) {
                         runOnUiThread {
+                            it.dismiss()
                             dialogUtil.createPositiveButtonDialog("验证码错误!", "好的", {})
                         }
                     } else if (mReturnBody.contains("username")) {
@@ -184,6 +193,7 @@ class LoginActivity : AppCompatActivity() {
                             editor.apply()
                         }
                         runOnUiThread {
+                            it.dismiss()
                             dialogUtil.createPositiveButtonDialog("登录成功!", "好的") {
                                 val intent =
                                     Intent(this, MainActivity::class.java)
@@ -212,6 +222,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     } else {
                         runOnUiThread {
+                            it.dismiss()
                             dialogUtil.createPositiveButtonDialog("未知错误!", "好的", {})
                         }
                     }
@@ -220,7 +231,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }.start()
         }
-    } // 设置监听器
+    }
 
     @SuppressLint("CommitPrefEdits")
     private fun init() {
@@ -233,138 +244,38 @@ class LoginActivity : AppCompatActivity() {
         // 侧滑栏版本获取
         navigationview_head_textView_version.text = "HNU离散数学助手 v" + DataUtil.getVersion(this)
         // 自动登录
-        Thread {
-            try {
-                schoolnodeptno =
-                    NetUtil.getSchoolnodeptno(prefs.getString("userAgent", "")!!)
-                val getImageJSON = NetUtil.getImage(prefs.getString("userAgent", "")!!)
-                imageUrl = getImageJSON.getString("url")
-                cookie = getImageJSON.getString("SessionId")
-                verifycodeint = getImageJSON.getString("verifycodeint")
-                Log.d("mTAG", "init: " + schoolnodeptno)
-                Log.d("mTAG", "init: " + imageUrl)
-                Log.d("mTAG", "init: " + cookie)
-                Log.d("mTAG", "init: " + verifycodeint)
-                runOnUiThread {
-                    imageView_code.setImageURL(imageUrl)
-                    if (prefs.getBoolean("isAutoFillCode", false)) {
-                        textInputEditText_code.setText(DataUtil.getVerifyCode(verifycodeint))
+        dialogUtil.createProgressDialog {
+            Thread {
+                try {
+                    schoolnodeptno =
+                        NetUtil.getSchoolnodeptno(prefs.getString("userAgent", "")!!)
+                    val getImageJSON = NetUtil.getImage(prefs.getString("userAgent", "")!!)
+                    imageUrl = getImageJSON.getString("url")
+                    cookie = getImageJSON.getString("SessionId")
+                    verifycodeint = getImageJSON.getString("verifycodeint")
+                    Log.d("mTAG", "init: " + schoolnodeptno)
+                    Log.d("mTAG", "init: " + imageUrl)
+                    Log.d("mTAG", "init: " + cookie)
+                    Log.d("mTAG", "init: " + verifycodeint)
+                    it.dismiss()
+                    runOnUiThread {
+                        dialogUtil.createProgressDialog{
+                            imageView_code.setImageURL(imageUrl)
+                            it.dismiss()
+                        }
+                        if (prefs.getBoolean("isAutoFillCode", false)) {
+                            textInputEditText_code.setText(DataUtil.getVerifyCode(verifycodeint))
+                        }
+                        val isLogOut = intent.getBooleanExtra("isLogOut", false)
+                        if (prefs.getBoolean("isAutoLogin", false) && !isLogOut) {
+                            loginEvent()
+                        }
                     }
-                    val isLogOut = intent.getBooleanExtra("isLogOut", false)
-                    if (prefs.getBoolean("isAutoLogin", false) && !isLogOut) {
-                        Thread {
-                            try {
-                                val mReturnBody = NetUtil.login(
-                                    textInputEditText_uname.text.toString(),
-                                    textInputEditText_pwd.text.toString(),
-                                    textInputEditText_code.text.toString(),
-                                    verifycodeint,
-                                    schoolnodeptno,
-                                    prefs.getString("userAgent", "")!!,
-                                    cookie
-                                )
-                                Log.d("mTAG", "init: " + mReturnBody)
-                                if (mReturnBody.contains("密码错")) {
-                                    runOnUiThread {
-                                        dialogUtil.createPositiveButtonDialog("密码错误!", "好的", {})
-                                    }
-                                } else if (mReturnBody.contains("不存在")) {
-                                    runOnUiThread {
-                                        dialogUtil.createPositiveButtonDialog("账号不存在!", "好的", {})
-                                    }
-                                } else if (mReturnBody.contains("校验码不对")) {
-                                    runOnUiThread {
-                                        dialogUtil.createPositiveButtonDialog("验证码错误!", "好的", {})
-                                    }
-                                } else if (mReturnBody.contains("username")) {
-                                    if (checkBox_rememberPwd.isChecked) {
-                                        editor.putString(
-                                            "pwd",
-                                            textInputEditText_pwd.text.toString()
-                                        )
-                                        editor.putBoolean("isRemembered", true)
-                                        editor.apply()
-                                    } else {
-                                        editor.putString("pwd", "")
-                                        editor.putBoolean("isRemembered", false)
-                                        editor.apply()
-                                    }
-                                    if (checkBox_autoLogin.isChecked) {
-                                        editor.putBoolean("isRemembered", true)
-                                        editor.putBoolean("isAutoLogin", true)
-                                        editor.putBoolean("isAutoFillCode", true)
-                                        editor.apply()
-                                    } else {
-                                        editor.putBoolean("isAutoLogin", false)
-                                        editor.apply()
-                                    }
-                                    if (checkBox_autoFillCode.isChecked) {
-                                        editor.putBoolean("isAutoFillCode", true)
-                                        editor.apply()
-                                    } else {
-                                        editor.putBoolean("isAutoFillCode", false)
-                                        editor.apply()
-                                    }
-                                    runOnUiThread {
-                                        dialogUtil.createPositiveButtonDialog("登录成功!", "好的") {
-                                            val intent =
-                                                Intent(this, MainActivity::class.java)
-                                            val returnArr = mReturnBody.split("`")
-                                            for (item in returnArr) {
-                                                if (item.contains("zh"))
-                                                    intent.putExtra("zh", item.split(":")[1])
-                                                if (item.contains("rolename"))
-                                                    intent.putExtra(
-                                                        "rolename",
-                                                        item.split(":")[1]
-                                                    )
-                                                if (item.contains("username"))
-                                                    intent.putExtra(
-                                                        "username",
-                                                        item.split(":")[1]
-                                                    )
-                                                if (item.contains("schoolno"))
-                                                    intent.putExtra(
-                                                        "schoolno",
-                                                        item.split(":")[1]
-                                                    )
-                                                if (item.contains("schoolname"))
-                                                    intent.putExtra(
-                                                        "schoolname",
-                                                        item.split(":")[1]
-                                                    )
-                                                if (item.contains("ip"))
-                                                    intent.putExtra("ip", item.split(":")[1])
-                                                if (item.contains("paperplannoList"))
-                                                    intent.putExtra(
-                                                        "paperplannoList",
-                                                        item.split(":")[1]
-                                                    )
-                                            }
-                                            intent.putExtra(
-                                                "userAgent",
-                                                prefs.getString("userAgent", "")!!
-                                            )
-                                            intent.putExtra("cookie", cookie)
-                                            startActivity(intent)
-                                            finish()
-                                        }
-                                    }
-                                } else {
-                                    runOnUiThread {
-                                        dialogUtil.createPositiveButtonDialog("未知错误!", "好的", {})
-                                    }
-                                }
-                            } catch (e: JSONException) {
-                                e.printStackTrace()
-                            }
-                        }.start()
-                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
                 }
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        }.start()
+            }.start()
+        }
         // 展示储存的账号信息
         textInputEditText_uname.setText(prefs.getString("uname", ""))
         textInputEditText_pwd.setText(prefs.getString("pwd", ""))

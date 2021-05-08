@@ -149,25 +149,28 @@ class MainActivity : AppCompatActivity() {
         recyclerView_tasks.itemAnimator = DefaultItemAnimator()
         recyclerView_tasks.isNestedScrollingEnabled = false
         // 获取任务信息
-        Thread {
-            var taskList = NetUtil.getTasks(
-                zh!!,
-                "global_chnname",
-                "paperplan",
-                "0",
-                "1",
-                "papername,datecreate,schoolno,schoolname,zh,username,courseno,coursename,classname,studansflag,datebegin,dateend,examperoid,id",
-                cond,
-                "id desc",
-                userAgent!!,
-                cookie!!
-            )
-            taskList = DataUtil.sortTasks(taskList)
-            runOnUiThread {
-                val mTaskAdapter = TaskAdapter(this, taskList, zh, userAgent, cookie)
-                recyclerView_tasks.adapter = mTaskAdapter
-            }
-        }.start()
+        dialogUtil.createProgressDialog{
+            Thread {
+                var taskList = NetUtil.getTasks(
+                    zh!!,
+                    "global_chnname",
+                    "paperplan",
+                    "0",
+                    "1",
+                    "papername,datecreate,schoolno,schoolname,zh,username,courseno,coursename,classname,studansflag,datebegin,dateend,examperoid,id",
+                    cond,
+                    "id desc",
+                    userAgent!!,
+                    cookie!!
+                )
+                taskList = DataUtil.sortTasks(taskList)
+                runOnUiThread {
+                    it.dismiss()
+                    val mTaskAdapter = TaskAdapter(this, taskList, zh, userAgent, cookie)
+                    recyclerView_tasks.adapter = mTaskAdapter
+                }
+            }.start()
+        }
         // 展示账号信息
         main_textView_name.text = username
     } // 初始化

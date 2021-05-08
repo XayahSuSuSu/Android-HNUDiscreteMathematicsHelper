@@ -37,9 +37,10 @@ class DialogUtil(var mContext: Context) {
     } // 利用高阶函数创建普通对话框
 
     fun createProgressDialog(
+        positiveEvent: (AlertDialog) -> Unit,
     ) {
         val builder = AlertDialog.Builder(mContext)
-            .setTitle("请稍后")
+            .setTitle("请求中")
             .setCancelable(false)
             .create()
         builder.window
@@ -62,8 +63,9 @@ class DialogUtil(var mContext: Context) {
             builder.window!!.windowManager.getDefaultDisplay().getWidth() - 200
         }
         builder.window!!.attributes = params
-    } // 创建带进度条对话框
 
+        positiveEvent(builder)
+    }// 加载对话框，高阶函数执行完毕自动关闭
     fun createCustomButtonDialog(
         title: String,
         message: String,

@@ -78,20 +78,21 @@ class TaskActivity : AppCompatActivity() {
                 dialogUtil.createPositiveButtonDialog("暂不支持非客观题作答!", "好的") {}
             }
             else -> {
-                Thread {
-                    val mIP = getIP()
-                    val sqlState = modifyAnswer(mIP, certainTaskList)
-                    Log.d("mTAG", "modifyAnswer: $sqlState")
-                    val mReturn = commitAnswer(sqlState, userAgent, cookie)
-                    runOnUiThread {
-                        dialogUtil.createPositiveButtonDialog(
-                            mReturn,
-                            "好的"
-                        ) { finish() }
-                    }
-
-                }.start()
-
+                dialogUtil.createProgressDialog {
+                    Thread {
+                        val mIP = getIP()
+                        val sqlState = modifyAnswer(mIP, certainTaskList)
+                        Log.d("mTAG", "modifyAnswer: $sqlState")
+                        val mReturn = commitAnswer(sqlState, userAgent, cookie)
+                        runOnUiThread {
+                            it.dismiss()
+                            dialogUtil.createPositiveButtonDialog(
+                                mReturn,
+                                "好的"
+                            ) { finish() }
+                        }
+                    }.start()
+                }
             }
         }
     }
@@ -124,27 +125,30 @@ class TaskActivity : AppCompatActivity() {
         recyclerView_certainTasks.isNestedScrollingEnabled = false
         certainTaskList = mutableListOf()
         // 获取具体任务信息
-        Thread {
-            certainTaskList = NetUtil.getCertainTask(
-                "studscoredetail",
-                "knowpoint,tkno,studans,scorestudnum,teachauditmsg,teachauditmsgqa,studanstext,studreply,datebegin,dateend,testtopic,id",
-                cond,
-                "tkno",
-                userAgent,
-                cookie,
-            )
-            task_textView_scoreNum.setText(DataUtil.getScore(certainTaskList))
-            for (i in certainTaskList) {
-                Log.d("mTAG", "遍历答案数组: " + i.certainTaskQuestionClass.qOption)
-                if (i.certainTaskQuestionClass.qTitle.contains("<img src=")) {
-                    DataUtil.getImageUrl(i.certainTaskQuestionClass.qTitle)
+        dialogUtil.createProgressDialog {
+            Thread {
+                certainTaskList = NetUtil.getCertainTask(
+                    "studscoredetail",
+                    "knowpoint,tkno,studans,scorestudnum,teachauditmsg,teachauditmsgqa,studanstext,studreply,datebegin,dateend,testtopic,id",
+                    cond,
+                    "tkno",
+                    userAgent,
+                    cookie,
+                )
+                it.dismiss()
+                task_textView_scoreNum.setText(DataUtil.getScore(certainTaskList))
+                for (i in certainTaskList) {
+                    Log.d("mTAG", "遍历答案数组: " + i.certainTaskQuestionClass.qOption)
+                    if (i.certainTaskQuestionClass.qTitle.contains("<img src=")) {
+                        DataUtil.getImageUrl(i.certainTaskQuestionClass.qTitle)
+                    }
                 }
-            }
-            runOnUiThread {
-                val mCertainTaskAdapter = CertainTaskAdapter(this, certainTaskList)
-                recyclerView_certainTasks.adapter = mCertainTaskAdapter
-            }
-        }.start()
+                runOnUiThread {
+                    val mCertainTaskAdapter = CertainTaskAdapter(this, certainTaskList)
+                    recyclerView_certainTasks.adapter = mCertainTaskAdapter
+                }
+            }.start()
+        }
     } // 初始化
 
     private fun updateSurplusTime() {
