@@ -80,12 +80,12 @@ class LoginActivity : AppCompatActivity() {
         login_navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_website_system -> {
-                    val uri = Uri.parse("http://server.wuyou.com.cn/hnuysh/")
+                    val uri = Uri.parse("http://120.27.17.78/hnuysh/")
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)
                 }
                 R.id.item_website_AcmeZone -> {
-                    val uri = Uri.parse("http://acmezone.tk/")
+                    val uri = Uri.parse("http://acmezone.top/")
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)
                 }

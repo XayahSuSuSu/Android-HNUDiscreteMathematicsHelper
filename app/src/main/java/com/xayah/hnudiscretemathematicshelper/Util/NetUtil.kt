@@ -16,20 +16,20 @@ class NetUtil {
 
     companion object {
 
-        private val getSchoolnodeptnoApi = "http://server.wuyou.com.cn/hnuysh/"
+        private val getSchoolnodeptnoApi = "http://120.27.17.78/hnuysh/"
 
-        private val getImageApi = "http://server.wuyou.com.cn/hnuysh/getImage.aspx"
+        private val getImageApi = "http://120.27.17.78/hnuysh/getImage.aspx"
 
-        private val loginApi = "http://server.wuyou.com.cn/hnuysh/yshverify.aspx"
+        private val loginApi = "http://120.27.17.78/hnuysh/yshverify.aspx"
 
         private val getTasksApi =
-            "http://server.wuyou.com.cn/hnuysh/getDataTop1WithFieldListCalField.aspx"
+            "http://120.27.17.78/hnuysh/getDataTop1WithFieldListCalField.aspx"
 
         private val getCertainTaskApi =
-            "http://server.wuyou.com.cn/hnuysh/getDataTop1WithFieldListNoShow.aspx"
+            "http://120.27.17.78/hnuysh/getDataTop1WithFieldListNoShow.aspx"
 
         private val commitAnswerApi =
-            "http://server.wuyou.com.cn/hnuysh/exeNonQueryUpDateInsertWithPara.aspx"
+            "http://120.27.17.78/hnuysh/exeNonQueryUpDateInsertWithPara.aspx"
 
         private val getIPApi = "http://ip.json-json.com/"
 
@@ -76,7 +76,7 @@ class NetUtil {
                 val mRequest: Request = Request.Builder()
                     .url(getImageApi)
                     .addHeader("Accept", "*/*")
-                    .addHeader("Referer", "http://server.wuyou.com.cn/hnuysh/")
+                    .addHeader("Referer", "http://120.27.17.78/hnuysh/")
                     .addHeader("Connection", "keep-alive")
                     .addHeader("User-Agent", userAgent)
                     .post(mRequestBody)
@@ -94,7 +94,7 @@ class NetUtil {
                     try {
                         val jsonObject = JSONObject(returnBody)
                         val message = jsonObject.getString("message")
-                        val imageUrl = "http://server.wuyou.com.cn/hnuysh/images/$message"
+                        val imageUrl = "http://120.27.17.78/hnuysh/images/$message"
                         returnJSON.put("url", imageUrl)
                         returnJSON.put("SessionId", SessionId)
                         returnJSON.put("verifycodeint", message.replace(".png", ""))
@@ -132,7 +132,7 @@ class NetUtil {
                 val mRequest: Request = Request.Builder()
                     .url(loginApi)
                     .addHeader("Accept", "*/*")
-                    .addHeader("Referer", "http://server.wuyou.com.cn/hnuysh/")
+                    .addHeader("Referer", "http://120.27.17.78/hnuysh/")
                     .addHeader("Connection", "keep-alive")
                     .addHeader("User-Agent", userAgent)
                     .addHeader("Cookie", cookie)
@@ -147,7 +147,7 @@ class NetUtil {
                     try {
                         val jsonObject = JSONObject(returnBody)
                         val message = jsonObject.getString("message")
-                        returnBody = "http://server.wuyou.com.cn/hnuysh/images/$message"
+                        returnBody = "http://120.27.17.78/hnuysh/images/$message"
                         Log.d("mTAG", "getImage: " + returnBody)
 
                     } catch (e: JSONException) {
@@ -188,7 +188,7 @@ class NetUtil {
                 val mRequest: Request = Request.Builder()
                     .url(getTasksApi)
                     .addHeader("Accept", "*/*")
-                    .addHeader("Referer", "http://server.wuyou.com.cn/hnuysh/homestudent.htm")
+                    .addHeader("Referer", "http://120.27.17.78/hnuysh/homestudent.htm")
                     .addHeader("Connection", "keep-alive")
                     .addHeader("User-Agent", userAgent)
                     .addHeader("Cookie", cookie)
@@ -252,7 +252,7 @@ class NetUtil {
                 val mRequest: Request = Request.Builder()
                     .url(getCertainTaskApi)
                     .addHeader("Accept", "*/*")
-                    .addHeader("Referer", "http://server.wuyou.com.cn/hnuysh/homestudent.htm")
+                    .addHeader("Referer", "http://120.27.17.78/hnuysh/homestudent.htm")
                     .addHeader("Connection", "keep-alive")
                     .addHeader("User-Agent", userAgent)
                     .addHeader("Cookie", cookie)
@@ -344,7 +344,7 @@ class NetUtil {
                 val mRequest: Request = Request.Builder()
                     .url(commitAnswerApi)
                     .addHeader("Accept", "*/*")
-                    .addHeader("Referer", "http://server.wuyou.com.cn/hnuysh/homestudent.htm")
+                    .addHeader("Referer", "http://120.27.17.78/hnuysh/homestudent.htm")
                     .addHeader("Connection", "keep-alive")
                     .addHeader("User-Agent", userAgent)
                     .addHeader("Cookie", cookie)
