@@ -3,7 +3,6 @@ package com.xayah.hnudiscretemathematicshelper.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
@@ -20,13 +19,6 @@ import com.xayah.hnudiscretemathematicshelper.R
 import com.xayah.hnudiscretemathematicshelper.Util.DataUtil
 import com.xayah.hnudiscretemathematicshelper.Util.DialogUtil
 import com.xayah.hnudiscretemathematicshelper.Util.NetUtil
-import okhttp3.Call
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import org.json.JSONException
-import org.json.JSONObject
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     // -------------------Component-------------------
@@ -46,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         bindView() // 绑定组件
         init() // 初始化
-        checkVersion() // 自动获取更新
         setListener() // 设置监听器
     }
 
@@ -151,86 +142,32 @@ class MainActivity : AppCompatActivity() {
         // 获取任务信息
         dialogUtil.createProgressDialog{
             Thread {
-                var taskList = NetUtil.getTasks(
-                    zh!!,
-                    "global_chnname",
-                    "paperplan",
-                    "0",
-                    "1",
-                    "papername,datecreate,schoolno,schoolname,zh,username,courseno,coursename,classname,studansflag,datebegin,dateend,examperoid,id",
-                    cond,
-                    "id desc",
-                    userAgent!!,
-                    cookie!!
-                )
-                taskList = DataUtil.sortTasks(taskList)
-                runOnUiThread {
+                try {
+                    var taskList = NetUtil.getTasks(
+                        zh!!,
+                        "global_chnname",
+                        "paperplan",
+                        "0",
+                        "1",
+                        "papername,datecreate,schoolno,schoolname,zh,username,courseno,coursename,classname,studansflag,datebegin,dateend,examperoid,id",
+                        cond,
+                        "id desc",
+                        userAgent!!,
+                        cookie!!
+                    )
+                    taskList = DataUtil.sortTasks(taskList)
+                    runOnUiThread {
+                        it.dismiss()
+                        val mTaskAdapter = TaskAdapter(this, taskList, zh, userAgent, cookie)
+                        recyclerView_tasks.adapter = mTaskAdapter
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                     it.dismiss()
-                    val mTaskAdapter = TaskAdapter(this, taskList, zh, userAgent, cookie)
-                    recyclerView_tasks.adapter = mTaskAdapter
                 }
             }.start()
         }
         // 展示账号信息
         main_textView_name.text = username
     } // 初始化
-
-    private fun checkVersion() {
-        Thread {
-            val mVersion: String = DataUtil.getVersion(this)!!
-            val getTbsUrl =
-                "https://service-rw6vse30-1303879152.gz.apigw.tencentcs.com/release/HNUDMHCheckUpdateNodeJS"
-            val okHttpClient = OkHttpClient()
-            val mRequest: Request = Request.Builder()
-                .url(getTbsUrl)
-                .addHeader("Cookie", mVersion)
-                .get()
-                .build()
-            val mCall: Call = okHttpClient.newCall(mRequest)
-            val mResponse: Response = mCall.execute()
-            val mResponseBody: String? = mResponse.body?.string()
-            if (mResponseBody != null) {
-                val ifTheNewest = Objects.requireNonNull(mResponseBody)
-                if (ifTheNewest == "1") {
-                    // 已经是最新版本
-                } else {
-                    try {
-                        val jsonObject = JSONObject(ifTheNewest)
-                        val newestVersion = jsonObject.getString("newestVersion")
-                        val localVersion = jsonObject.getString("localVersion")
-                        val downloadUrl = jsonObject.getString("downloadUrl")
-                        val title = jsonObject.getString("title")
-                        val confirmButton = jsonObject.getString("confirmButton")
-                        val cancelButton = jsonObject.getString("cancelButton")
-                        val contentSplit = jsonObject.getString("content").split("&").toTypedArray()
-                        val content = StringBuilder()
-                        for (s in contentSplit) {
-                            content.append(s).append("\n")
-                        }
-                        var showContent = "最新版本：$newestVersion\n"
-                        showContent += "当前版本：$localVersion\n\n"
-                        showContent += "更新内容：\n$content\n"
-                        showContent += "是否立即更新？"
-                        Looper.prepare()
-                        dialogUtil.createCustomButtonDialog(
-                            title,
-                            showContent,
-                            confirmButton,
-                            cancelButton,
-                            {
-                                val intent = Intent()
-                                intent.action = "android.intent.action.VIEW"
-                                val content_url = Uri.parse(downloadUrl)
-                                intent.data = content_url
-                                startActivity(intent)
-                            },
-                            {})
-                        Looper.loop()
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-        }.start()
-    } // 自动获取更新
 }
