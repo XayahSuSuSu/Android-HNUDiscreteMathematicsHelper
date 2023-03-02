@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import java.io.IOException
 import java.net.HttpURLConnection
+import java.net.MalformedURLException
 import java.net.URL
 
 class NetImageView : AppCompatImageView {
@@ -65,6 +66,7 @@ class NetImageView : AppCompatImageView {
                         //服务启发生错误
                         mHandler.sendEmptyMessage(SERVER_ERROR)
                     }
+                } catch (_: MalformedURLException) {
                 } catch (e: IOException) {
                     e.printStackTrace()
                     //网络连接错误

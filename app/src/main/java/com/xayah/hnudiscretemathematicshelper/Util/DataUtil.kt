@@ -312,13 +312,13 @@ class DataUtil {
         } // 计算剩余时间
 
         fun getScore(certainTaskList: MutableList<CertainTaskClass>): String {
-            var mScore = 0
+            var mScore = 0.0
             // 当试卷到期前没有提交过时，scorestudnum值为-,用NumberFormatException处理异常
             try {
                 Log.d("mTAG", "getScore()")
                 for (i in certainTaskList) {
                     Log.d("mTAG", "i.scorestudnum: " + i.scorestudnum)
-                    mScore += i.scorestudnum.toInt()
+                    mScore += i.scorestudnum.toDouble()
                 }
             } catch (e: NumberFormatException) {
                 e.printStackTrace()

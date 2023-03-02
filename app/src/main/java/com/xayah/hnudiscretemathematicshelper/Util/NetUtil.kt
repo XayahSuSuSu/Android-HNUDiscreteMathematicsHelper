@@ -31,7 +31,7 @@ class NetUtil {
         private val commitAnswerApi =
             "http://120.27.17.78/hnuysh/exeNonQueryUpDateInsertWithPara.aspx"
 
-        private val getIPApi = "http://ip.json-json.com/"
+        private val getIPApi = "http://api.ipify.org/"
 
 
         fun getSchoolnodeptno(userAgent: String): String {
