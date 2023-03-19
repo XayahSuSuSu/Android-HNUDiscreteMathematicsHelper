@@ -234,24 +234,30 @@ class DataUtil {
             // 当传进来的Url太奇怪时，使用StringIndexOutOfBoundsException处理异常
             val mUrlList = mutableListOf<String>()
             try {
-                val mQTitleTmp = mQTitle.replace("</img>", "")
+                val mQTitleTmp =
+                    if (mQTitle.contains("hnuysh"))
+                        mQTitle
+                            .replace("‘", "\"")
+                            .replace("</img>", "")
+                            .replace("\".*/hnuysh/".toRegex(), "\"http://120.27.17.78/hnuysh/")
+                    else {
+                        mQTitle
+                            .replace("‘", "\"")
+                            .replace("<img src=\"", "<img src=\"http://120.27.17.78/hnuysh/")
+                    }
                 Log.d("mTAG", "mQTitleTmp: " + mQTitleTmp)
                 val mUrls =
-                    mQTitleTmp.substring(
-                        mQTitleTmp.indexOf("<img src="),
-                        mQTitleTmp.lastIndexOf(">") + 1
-                    ).trim()
+                    mQTitleTmp
+                        .replace("png.*|PNG.*".toRegex(), "png")
+                        .replace("jpg.*|JPG.*".toRegex(), "jpg")
+                        .replace(".*http".toRegex(), "http")
                 Log.d("mTAG", "mUrls: " + mUrls)
+
                 if (mUrls.trim() == mQTitleTmp) {
                     mUrlList.add("")
-                    val mReturn =
-                        mUrls.replace("‘", "\"").replace("\" border=\"0\">", "")
-                            .split("<img src=\"")
+                    val mReturn = mUrls
                     Log.d("mTAG", "mReturn: " + mReturn)
-                    for (i in mReturn) {
-                        if (!i.isEmpty())
-                            mUrlList.add(i)
-                    }
+                    mUrlList.add(mReturn)
                     mUrlList.add("")
                 } else {
                     val mTextTitleLeft =
@@ -270,7 +276,9 @@ class DataUtil {
                     Log.d("mTAG", "mTextTitleLeft: $mTextTitleLeft")
                     Log.d("mTAG", "mTextTitleRight: $mTextTitleRight")
                     val mReturn =
-                        mUrls.replace("‘", "\"").replace("\" border=\"0\">", "")
+                        mUrls.replace("‘", "\"")
+                            .replace("png.*|PNG.*".toRegex(), "png")
+                            .replace("jpg.*|JPG.*".toRegex(), "jpg")
                             .split("<img src=\"")
                     Log.d("mTAG", "mReturn: $mReturn")
                     for (i in mReturn) {
@@ -282,6 +290,7 @@ class DataUtil {
             } catch (e: StringIndexOutOfBoundsException) {
                 e.printStackTrace()
             }
+
             return mUrlList
         } // 解析图片链接
 
